@@ -155,6 +155,1491 @@
 </head>
 <body>
     <div class="container">
+        <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RIA Diagnostic Framework — A2 Investment Partners</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:       #0E2240;
+    --navy-mid:   #1B3D6F;
+    --navy-light: #2E5FA3;
+    --gold:       #C8922A;
+    --gold-light: #F0D080;
+    --gold-pale:  #FBF3DC;
+    --cream:      #F8F5EF;
+    --white:      #FFFFFF;
+    --ink:        #1A1A2E;
+    --muted:      #6B7591;
+    --border:     #D8D2C8;
+    --red:        #9B2335;
+    --red-bg:     #F9ECED;
+    --orange:     #B84F1A;
+    --orange-bg:  #FBF0E8;
+    --green:      #1B6644;
+    --green-bg:   #E8F4EE;
+    --blue-bg:    #EBF0F8;
+    --shadow-sm:  0 1px 4px rgba(14,34,64,.07);
+    --shadow-md:  0 4px 20px rgba(14,34,64,.10);
+    --shadow-lg:  0 12px 48px rgba(14,34,64,.14);
+    --radius:     10px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); line-height: 1.6; min-height: 100vh; }
+
+  /* TOPBAR */
+  .topbar { background: var(--navy); padding: 0 2.5rem; display: flex; align-items: center; justify-content: space-between; height: 56px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 16px rgba(0,0,0,.25); }
+  .topbar-brand { font-family: 'DM Serif Display', serif; font-size: 1.05rem; color: var(--gold-light); letter-spacing: .01em; }
+  .topbar-brand span { color: rgba(255,255,255,.5); font-family: 'DM Sans', sans-serif; font-size: .8rem; font-weight: 300; margin-left: .75rem; }
+  .topbar-badge { background: var(--gold); color: var(--navy); font-size: .7rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; }
+
+  /* HERO */
+  .hero { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 60%, #1a3a6e 100%); padding: 3.5rem 2.5rem 3rem; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -60px; right: -60px; width: 360px; height: 360px; border-radius: 50%; background: radial-gradient(circle, rgba(200,146,42,.15) 0%, transparent 70%); pointer-events: none; }
+  .hero::after { content: ''; position: absolute; bottom: -40px; left: 30%; width: 240px; height: 240px; border-radius: 50%; background: radial-gradient(circle, rgba(46,95,163,.3) 0%, transparent 70%); pointer-events: none; }
+  .hero-inner { max-width: 960px; margin: 0 auto; position: relative; z-index: 1; }
+  .hero-eyebrow { font-size: .7rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); margin-bottom: .75rem; }
+  .hero h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2rem, 4vw, 3rem); color: #fff; line-height: 1.15; margin-bottom: 1rem; }
+  .hero h1 em { color: var(--gold-light); font-style: italic; }
+  .hero-sub { font-size: .95rem; font-weight: 300; color: rgba(255,255,255,.68); max-width: 620px; line-height: 1.7; }
+
+  /* NAV */
+  .nav-wrap { background: var(--white); border-bottom: 1px solid var(--border); position: sticky; top: 56px; z-index: 90; box-shadow: var(--shadow-sm); }
+  .nav-tabs { max-width: 960px; margin: 0 auto; display: flex; padding: 0 1rem; }
+  .nav-tab { background: none; border: none; border-bottom: 3px solid transparent; padding: .85rem 1.4rem; font-family: 'DM Sans', sans-serif; font-size: .875rem; font-weight: 500; color: var(--muted); cursor: pointer; transition: all .2s; white-space: nowrap; }
+  .nav-tab:hover { color: var(--navy-mid); }
+  .nav-tab.active { color: var(--navy); border-bottom-color: var(--gold); }
+
+  /* MAIN */
+  .main { max-width: 960px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+  .section { display: none; }
+  .section.active { display: block; animation: fadeUp .3s ease; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  .sec-header { margin-bottom: 1.75rem; }
+  .sec-header h2 { font-family: 'DM Serif Display', serif; font-size: 1.6rem; color: var(--navy); margin-bottom: .35rem; }
+  .sec-header p { font-size: .875rem; color: var(--muted); }
+
+  /* SEGMENT */
+  .segment-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 2rem; }
+  .seg-btn { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 1rem 1.25rem; cursor: pointer; text-align: left; transition: all .2s; box-shadow: var(--shadow-sm); }
+  .seg-btn:hover { border-color: var(--navy-light); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+  .seg-btn.active { border-color: var(--navy-mid); background: var(--blue-bg); box-shadow: var(--shadow-md); }
+  .seg-btn .seg-icon { font-size: 1.4rem; margin-bottom: .5rem; }
+  .seg-btn .seg-name { font-weight: 600; font-size: .9rem; color: var(--navy); margin-bottom: .2rem; }
+  .seg-btn .seg-desc { font-size: .75rem; color: var(--muted); line-height: 1.4; }
+  .seg-btn.active .seg-name { color: var(--navy-mid); }
+
+  /* CHALLENGE CARDS */
+  .challenges { display: none; }
+  .challenges.active { display: flex; flex-direction: column; gap: 10px; }
+  .ch-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); transition: box-shadow .2s; }
+  .ch-card:hover { box-shadow: var(--shadow-md); }
+  .ch-header { display: flex; align-items: center; gap: 12px; padding: .9rem 1.1rem; cursor: pointer; user-select: none; }
+  .ch-num { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .75rem; font-weight: 700; flex-shrink: 0; }
+  .priority-critical .ch-num { background: var(--red-bg); color: var(--red); }
+  .priority-elevated .ch-num { background: var(--orange-bg); color: var(--orange); }
+  .priority-watch    .ch-num { background: var(--blue-bg); color: var(--navy-mid); }
+  .ch-title { flex: 1; font-weight: 600; font-size: .9rem; color: var(--navy); }
+  .ch-pill { font-size: .68rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 3px 9px; border-radius: 20px; flex-shrink: 0; }
+  .priority-critical .ch-pill { background: var(--red-bg); color: var(--red); }
+  .priority-elevated .ch-pill { background: var(--orange-bg); color: var(--orange); }
+  .priority-watch    .ch-pill { background: var(--blue-bg); color: var(--navy-mid); }
+  .ch-chevron { font-size: .75rem; color: var(--muted); transition: transform .2s; flex-shrink: 0; }
+  .ch-card.open .ch-chevron { transform: rotate(180deg); }
+  .ch-body { display: none; padding: 0 1.1rem 1.1rem 3.4rem; }
+  .ch-card.open .ch-body { display: block; }
+  .ch-body p { font-size: .865rem; color: #444; line-height: 1.7; margin-bottom: .85rem; }
+  .signals-label { font-size: .75rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; margin-bottom: .5rem; }
+  .signals-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
+  .signal-tag { font-size: .75rem; color: var(--muted); background: var(--cream); border: 1px solid var(--border); border-radius: 6px; padding: 3px 9px; }
+
+  /* ═══════════════════════════════════════════
+     DISCOVERY FRAMEWORK — INTERVIEW MODE
+  ═══════════════════════════════════════════ */
+
+  /* firm name bar */
+  .firm-bar { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 1.75rem; display: flex; align-items: center; gap: 1rem; box-shadow: var(--shadow-sm); }
+  .firm-bar label { font-size: .8rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; white-space: nowrap; }
+  .firm-bar input { flex: 1; border: 1px solid var(--border); border-radius: 6px; padding: .45rem .75rem; font-family: 'DM Sans', sans-serif; font-size: .9rem; color: var(--navy); background: var(--cream); outline: none; transition: border-color .15s; }
+  .firm-bar input:focus { border-color: var(--navy-light); background: var(--white); }
+  .fw-progress-bar { height: 4px; background: var(--border); border-radius: 2px; margin-bottom: 1.75rem; overflow: hidden; }
+  .fw-progress-fill { height: 100%; background: linear-gradient(90deg, var(--navy-mid), var(--gold)); border-radius: 2px; transition: width .4s ease; }
+
+  /* dimension accordion */
+  .fw-dim { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 12px; box-shadow: var(--shadow-sm); overflow: hidden; transition: box-shadow .2s; }
+  .fw-dim:hover { box-shadow: var(--shadow-md); }
+  .fw-dim-header { display: flex; align-items: center; gap: 12px; padding: 1rem 1.25rem; cursor: pointer; user-select: none; }
+  .fw-dim-icon { font-size: 1.3rem; flex-shrink: 0; }
+  .fw-dim-title { font-weight: 700; font-size: .95rem; color: var(--navy); flex: 1; }
+  .fw-dim-score-pill {
+    display: flex; align-items: center; gap: 6px;
+    padding: 4px 12px; border-radius: 20px;
+    font-size: .8rem; font-weight: 700;
+    transition: all .3s;
+    flex-shrink: 0;
+  }
+  .fw-dim-score-pill.empty { background: var(--cream); color: var(--muted); border: 1px solid var(--border); }
+  .fw-dim-score-pill.partial { background: var(--orange-bg); color: var(--orange); border: 1px solid #f3c9a8; }
+  .fw-dim-score-pill.complete-low  { background: var(--red-bg);    color: var(--red);    border: 1px solid #e8b0b8; }
+  .fw-dim-score-pill.complete-mid  { background: var(--orange-bg); color: var(--orange); border: 1px solid #f3c9a8; }
+  .fw-dim-score-pill.complete-good { background: var(--blue-bg);   color: var(--navy-light); border: 1px solid #b5cef0; }
+  .fw-dim-score-pill.complete-high { background: var(--green-bg);  color: var(--green);  border: 1px solid #9ed6b8; }
+  .fw-dim-chevron { font-size: .75rem; color: var(--muted); transition: transform .2s; }
+  .fw-dim.open .fw-dim-chevron { transform: rotate(180deg); }
+  .fw-dim-progress { height: 3px; background: var(--border); }
+  .fw-dim-progress-fill { height: 100%; background: var(--gold); transition: width .3s; }
+
+  .fw-dim-body { display: none; border-top: 1px solid var(--border); }
+  .fw-dim.open .fw-dim-body { display: block; }
+
+  /* question rows */
+  .fw-q-row { padding: 1rem 1.25rem; border-bottom: 1px solid #f0ece5; display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: start; }
+  .fw-q-row:last-child { border-bottom: none; }
+  .fw-q-left { display: flex; flex-direction: column; gap: 8px; }
+  .fw-q-text { font-size: .875rem; font-weight: 600; color: var(--navy); line-height: 1.45; }
+  .fw-q-text::before { content: "→ "; color: var(--gold); font-size: .8rem; }
+  .fw-q-notes { width: 100%; border: 1px solid var(--border); border-radius: 6px; padding: .5rem .75rem; font-family: 'DM Sans', sans-serif; font-size: .82rem; color: #333; background: var(--cream); resize: vertical; min-height: 60px; outline: none; transition: border-color .15s; line-height: 1.5; }
+  .fw-q-notes:focus { border-color: var(--navy-light); background: var(--white); }
+  .fw-q-notes::placeholder { color: #b0a898; font-style: italic; }
+
+  /* rating widget */
+  .fw-q-rating { display: flex; flex-direction: column; align-items: center; gap: 6px; flex-shrink: 0; }
+  .fw-q-rating label { font-size: .68rem; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); white-space: nowrap; }
+  .rating-pips { display: flex; gap: 4px; }
+  .pip {
+    width: 22px; height: 22px; border-radius: 5px;
+    border: 1.5px solid var(--border);
+    background: var(--cream);
+    cursor: pointer;
+    font-size: .7rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--muted);
+    transition: all .12s;
+    user-select: none;
+  }
+  .pip:hover { border-color: var(--navy-light); color: var(--navy-light); background: var(--blue-bg); }
+  .pip.sel-low  { background: var(--red);    border-color: var(--red);    color: #fff; }
+  .pip.sel-mid  { background: var(--orange); border-color: var(--orange); color: #fff; }
+  .pip.sel-good { background: var(--navy-light); border-color: var(--navy-light); color: #fff; }
+  .pip.sel-high { background: var(--green);  border-color: var(--green);  color: #fff; }
+  .pip.faded { opacity: .35; }
+  .pip.sel-low.faded, .pip.sel-mid.faded, .pip.sel-good.faded, .pip.sel-high.faded { opacity: 1; }
+  .rating-val { font-size: .75rem; font-weight: 700; color: var(--muted); min-height: 16px; }
+
+  /* dimension score summary bar */
+  .fw-dim-footer {
+    background: var(--cream);
+    border-top: 1px solid var(--border);
+    padding: .75rem 1.25rem;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .fw-dim-footer-label { font-size: .75rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+  .fw-dim-footer-bar { flex: 1; height: 8px; background: #e4dfd7; border-radius: 4px; overflow: hidden; }
+  .fw-dim-footer-fill { height: 100%; border-radius: 4px; transition: width .4s ease, background .3s; }
+  .fw-dim-footer-val { font-size: .9rem; font-weight: 700; min-width: 42px; text-align: right; }
+  .fw-dim-footer-note { font-size: .75rem; font-style: italic; color: var(--muted); }
+
+  /* SCORECARD SUMMARY (bottom of framework tab) */
+  .fw-summary-wrap { margin-top: 2.5rem; }
+  .fw-summary-header {
+    background: var(--navy);
+    border-radius: var(--radius) var(--radius) 0 0;
+    padding: 1.1rem 1.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .fw-summary-header h3 { font-family: 'DM Serif Display', serif; font-size: 1.1rem; color: var(--gold-light); }
+  .fw-summary-header-right { display: flex; align-items: center; gap: 12px; }
+  .fw-overall { font-family: 'DM Serif Display', serif; font-size: 2rem; color: #fff; line-height: 1; }
+  .fw-overall span { font-family: 'DM Sans', sans-serif; font-size: .8rem; color: rgba(255,255,255,.5); font-weight: 300; }
+  .fw-export-btn { background: var(--gold); color: var(--navy); border: none; border-radius: 7px; padding: .5rem 1rem; font-family: 'DM Sans', sans-serif; font-size: .8rem; font-weight: 700; cursor: pointer; transition: background .15s, transform .1s; }
+  .fw-export-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+  .fw-summary-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0; border: 1px solid var(--border); border-top: none;
+    border-radius: 0 0 var(--radius) var(--radius); overflow: hidden;
+    background: var(--white);
+  }
+  .fw-sum-cell {
+    padding: 1rem 1.1rem;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    transition: background .15s;
+    cursor: pointer;
+  }
+  .fw-sum-cell:hover { background: var(--cream); }
+  .fw-sum-cell-icon { font-size: 1.1rem; margin-bottom: .3rem; }
+  .fw-sum-cell-name { font-size: .78rem; font-weight: 600; color: var(--muted); margin-bottom: .45rem; line-height: 1.3; }
+  .fw-sum-cell-score { font-size: 1.5rem; font-weight: 700; line-height: 1; margin-bottom: .25rem; }
+  .fw-sum-cell-bar { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; margin-bottom: .3rem; }
+  .fw-sum-cell-fill { height: 100%; border-radius: 2px; transition: width .5s ease; }
+  .fw-sum-cell-status { font-size: .7rem; color: var(--muted); font-style: italic; }
+
+  /* SCORECARD TAB */
+  .scorecard-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 2rem; }
+  .sc-row { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: .85rem 1.1rem; display: flex; align-items: center; gap: 14px; box-shadow: var(--shadow-sm); }
+  .sc-label { font-size: .875rem; font-weight: 500; color: var(--navy); width: 200px; flex-shrink: 0; }
+  .sc-track { flex: 1; position: relative; }
+  .sc-rail { height: 8px; background: #eae6df; border-radius: 4px; overflow: visible; position: relative; }
+  .sc-fill { height: 100%; border-radius: 4px; transition: width .6s cubic-bezier(.34,1.56,.64,1); }
+  .sc-thumb { position: absolute; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; border-radius: 50%; border: 2.5px solid var(--white); box-shadow: 0 1px 6px rgba(0,0,0,.2); cursor: pointer; transition: left .6s cubic-bezier(.34,1.56,.64,1); z-index: 2; }
+  input[type=range] { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; margin: 0; }
+  .sc-val { font-size: .9rem; font-weight: 700; width: 40px; text-align: right; flex-shrink: 0; }
+  .fill-green  { background: var(--green); }
+  .fill-blue   { background: var(--navy-light); }
+  .fill-orange { background: var(--orange); }
+  .fill-red    { background: var(--red); }
+  .text-green  { color: var(--green); }
+  .text-blue   { color: var(--navy-light); }
+  .text-orange { color: var(--orange); }
+  .text-red    { color: var(--red); }
+
+  .score-panel { background: var(--navy); border-radius: var(--radius); padding: 1.5rem 2rem; display: flex; align-items: center; gap: 2rem; margin-bottom: 1.5rem; box-shadow: var(--shadow-md); }
+  .score-big { font-family: 'DM Serif Display', serif; font-size: 3.5rem; color: var(--gold-light); line-height: 1; flex-shrink: 0; }
+  .score-info { flex: 1; }
+  .score-info .score-label { font-size: .7rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: .3rem; }
+  .score-info .score-interp { font-size: .95rem; color: rgba(255,255,255,.85); line-height: 1.5; }
+  .score-generate { background: var(--gold); color: var(--navy); border: none; border-radius: 8px; padding: .65rem 1.25rem; font-family: 'DM Sans', sans-serif; font-size: .8rem; font-weight: 700; cursor: pointer; flex-shrink: 0; transition: background .15s, transform .1s; letter-spacing: .02em; }
+  .score-generate:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+  /* ABOUT */
+  .about-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.75rem; margin-bottom: 1.25rem; box-shadow: var(--shadow-sm); }
+  .about-card h3 { font-family: 'DM Serif Display', serif; font-size: 1.15rem; color: var(--navy); margin-bottom: .65rem; padding-bottom: .5rem; border-bottom: 2px solid var(--gold-pale); }
+  .about-card p { font-size: .875rem; color: #444; line-height: 1.75; margin-bottom: .65rem; }
+  .about-card p:last-child { margin-bottom: 0; }
+  .workflow-steps { display: flex; flex-direction: column; gap: 12px; margin-top: .5rem; }
+  .ws { display: flex; gap: 14px; align-items: flex-start; padding: .85rem 1rem; background: var(--cream); border-radius: 8px; border-left: 3px solid var(--gold); }
+  .ws-num { width: 26px; height: 26px; border-radius: 50%; background: var(--navy); color: var(--gold-light); font-size: .75rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .ws-text { font-size: .855rem; color: #444; line-height: 1.6; }
+  .ws-text strong { color: var(--navy); }
+
+  /* TOAST */
+  .toast { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--navy); color: #fff; font-size: .85rem; padding: .7rem 1.5rem; border-radius: 30px; box-shadow: var(--shadow-lg); transition: transform .3s cubic-bezier(.34,1.56,.64,1); z-index: 999; pointer-events: none; white-space: nowrap; }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  @media (max-width: 640px) {
+    .segment-grid { grid-template-columns: 1fr; }
+    .fw-q-row { grid-template-columns: 1fr; }
+    .fw-q-rating { flex-direction: row; align-items: center; }
+    .score-panel { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .sc-label { width: 140px; font-size: .8rem; }
+    .nav-tab { padding: .75rem .85rem; font-size: .8rem; }
+    .topbar { padding: 0 1.25rem; }
+  }
+  /* ── DIAGNOSTIC SUMMARY TAB ── */
+  .diag-rec-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 14px; box-shadow: var(--shadow-sm); }
+  .diag-rec-header { display: flex; align-items: center; gap: 14px; padding: 1rem 1.25rem; }
+  .diag-rec-num { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 800; flex-shrink: 0; color: #fff; }
+  .diag-rec-title-wrap { flex: 1; }
+  .diag-rec-label { font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; margin-bottom: .2rem; }
+  .diag-rec-title { font-family: 'DM Serif Display', serif; font-size: 1.05rem; color: var(--navy); line-height: 1.25; }
+  .diag-rec-score-badge { padding: 5px 14px; border-radius: 20px; font-size: .85rem; font-weight: 700; flex-shrink: 0; }
+  .diag-rec-body { padding: 0 1.25rem 1.25rem; border-top: 1px solid #f0ece5; }
+  .diag-rec-section { margin-top: 1rem; }
+  .diag-rec-section-label { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: .5rem; }
+  .diag-rec-text { font-size: .875rem; color: #444; line-height: 1.75; }
+  .diag-action-item { display: flex; gap: 10px; align-items: flex-start; padding: .6rem 0; border-bottom: 1px solid #f5f1ec; }
+  .diag-action-item:last-child { border-bottom: none; }
+  .diag-action-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: .38rem; }
+  .diag-action-text { font-size: .855rem; color: #444; line-height: 1.6; }
+  .diag-solutions-wrap { display: flex; flex-wrap: wrap; gap: 6px; margin-top: .4rem; }
+  .diag-solution-tag { font-size: .75rem; background: var(--cream); border: 1px solid var(--border); border-radius: 6px; padding: 4px 10px; color: var(--navy-mid); font-weight: 500; }
+  .diag-score-row { display: flex; align-items: center; gap: 12px; padding: .7rem 1.25rem; border-bottom: 1px solid #f5f1ec; }
+  .diag-score-row:last-child { border-bottom: none; }
+  .diag-score-icon { font-size: 1rem; flex-shrink: 0; width: 24px; text-align: center; }
+  .diag-score-name { font-size: .85rem; font-weight: 500; color: var(--navy); flex: 1; }
+  .diag-score-bar-wrap { width: 160px; height: 7px; background: #eae6df; border-radius: 4px; overflow: hidden; flex-shrink: 0; }
+  .diag-score-bar-fill { height: 100%; border-radius: 4px; }
+  .diag-score-val { font-size: .875rem; font-weight: 700; width: 44px; text-align: right; flex-shrink: 0; }
+  .diag-mini-badge { padding: 4px 10px; border-radius: 20px; font-size: .72rem; font-weight: 700; border: 1px solid rgba(255,255,255,.2); color: #fff; }
+  .strength-row { display: flex; gap: 12px; align-items: flex-start; }
+  .strength-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+  .strength-text { font-size: .875rem; color: #444; line-height: 1.65; }
+  .strength-text strong { color: var(--navy); }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">A2 Investment Partners <span>RIA Diagnostic Framework</span></div>
+  <div class="topbar-badge">2026 Edition</div>
+</div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Firm Health Assessment Tool</div>
+    <h1>RIA <em>Diagnostic</em><br>Framework</h1>
+    <p class="hero-sub">A repeatable discovery and assessment system for evaluating RIA firm health across go-to-market, technology, operations, compliance, people, business development, and succession.</p>
+  </div>
+</div>
+
+<div class="nav-wrap">
+  <nav class="nav-tabs">
+    <button class="nav-tab active" onclick="switchTab('challenges', this)">Top 10 Challenges</button>
+    <button class="nav-tab" onclick="switchTab('framework', this)">Discovery Framework</button>
+    <button class="nav-tab" onclick="switchTab('scorecard', this)">Scorecard</button>
+    <button class="nav-tab" onclick="switchTab('diag', this)">Diagnostic Summary</button>
+    <button class="nav-tab" onclick="switchTab('about', this)">How to Use</button>
+  </nav>
+</div>
+
+<main class="main">
+
+  <!-- TAB 1: CHALLENGES -->
+  <div id="tab-challenges" class="section active">
+    <div class="sec-header">
+      <h2>Top 10 Challenges by Firm Segment</h2>
+      <p>Select a firm segment, then click any challenge to expand the detail and discovery signals.</p>
+    </div>
+    <div class="segment-grid">
+      <button class="seg-btn active" id="seg-solo" onclick="setSeg('solo', this)">
+        <div class="seg-icon">👤</div>
+        <div class="seg-name">Solo / Small RIA</div>
+        <div class="seg-desc">1–5 advisors · under $500M AUM</div>
+      </button>
+      <button class="seg-btn" id="seg-mid" onclick="setSeg('mid', this)">
+        <div class="seg-icon">🏢</div>
+        <div class="seg-name">Mid / Large RIA</div>
+        <div class="seg-desc">6–50 advisors · $500M–$5B AUM</div>
+      </button>
+      <button class="seg-btn" id="seg-agg" onclick="setSeg('agg', this)">
+        <div class="seg-icon">🏦</div>
+        <div class="seg-name">Aggregator / Enterprise</div>
+        <div class="seg-desc">Multi-office · $5B+ AUM · PE-backed</div>
+      </button>
+    </div>
+    <div id="ch-solo" class="challenges active"></div>
+    <div id="ch-mid"  class="challenges"></div>
+    <div id="ch-agg"  class="challenges"></div>
+  </div>
+
+  <!-- TAB 2: DISCOVERY FRAMEWORK (interview mode) -->
+  <div id="tab-framework" class="section">
+    <div class="sec-header">
+      <h2>Discovery Framework</h2>
+      <p>Answer each question with notes and a 1–10 rating. Scores auto-compile into dimension and overall health scores.</p>
+    </div>
+
+    <div class="firm-bar">
+      <label>Firm name</label>
+      <input type="text" id="firm-name" placeholder="Enter firm name…" oninput="updateFirmName()">
+      <label style="margin-left:.5rem">Date</label>
+      <input type="date" id="meeting-date" style="width:160px" oninput="updateFirmName()">
+    </div>
+
+    <div class="fw-progress-bar"><div class="fw-progress-fill" id="fw-progress" style="width:0%"></div></div>
+
+    <div id="fw-dims"></div>
+
+    <!-- Live summary grid -->
+    <div class="fw-summary-wrap">
+      <div class="fw-summary-header">
+        <h3>Assessment Summary</h3>
+        <div class="fw-summary-header-right">
+          <div>
+            <div style="font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:.1rem">Overall Score</div>
+            <div class="fw-overall" id="fw-overall-score">—<span> /10</span></div>
+          </div>
+          <button class="fw-export-btn" onclick="exportFramework()">📋 Export Notes</button>
+        </div>
+      </div>
+      <div class="fw-summary-grid" id="fw-summary-grid"></div>
+    </div>
+  </div>
+
+  <!-- TAB 3: SCORECARD (manual sliders) -->
+  <div id="tab-scorecard" class="section">
+    <div class="sec-header">
+      <h2>Firm Health Scorecard</h2>
+      <p>Rate each dimension 1–10. Scores from the Discovery Framework tab are synced here automatically.</p>
+    </div>
+    <div class="score-panel">
+      <div class="score-big" id="score-display">—</div>
+      <div class="score-info">
+        <div class="score-label">Overall Health Score</div>
+        <div class="score-interp" id="score-interp">Adjust the sliders or complete the Discovery Framework to generate your assessment.</div>
+      </div>
+      <button class="score-generate" onclick="copyScorecard()">📋 Copy Summary</button>
+    </div>
+    <div class="scorecard-grid" id="scorecard-rows"></div>
+  </div>
+
+  <!-- TAB 4: ABOUT -->
+  <div id="tab-about" class="section">
+    <div class="sec-header">
+      <h2>How to Use This Framework</h2>
+      <p>A guide for A2 Investment Partners colleagues using this tool in client conversations.</p>
+    </div>
+    <div class="about-card">
+      <h3>Purpose</h3>
+      <p>This framework gives A2 Investment Partners a repeatable, structured way to assess RIA firm health in every client conversation. It serves two goals: (1) identify where the firm has critical gaps that specialists or solutions can address, and (2) create a credible, data-driven basis for product and service recommendations.</p>
+      <p>The output of every conversation should be a completed Discovery Framework with notes and ratings — which auto-generates dimension scores and an overall health score that flows directly into the Scorecard tab.</p>
+    </div>
+    <div class="about-card">
+      <h3>Recommended Workflow</h3>
+      <div class="workflow-steps">
+        <div class="ws"><div class="ws-num">1</div><div class="ws-text"><strong>Pre-meeting prep:</strong> Review the Top 10 Challenges for the firm's segment. Note which are most likely given what you already know.</div></div>
+        <div class="ws"><div class="ws-num">2</div><div class="ws-text"><strong>During the conversation:</strong> Open the Discovery Framework tab. Enter the firm name and date. Work through each dimension — type notes as the client speaks and rate each answer 1–10. You don't need to be linear; jump to the dimensions most relevant to the conversation.</div></div>
+        <div class="ws"><div class="ws-num">3</div><div class="ws-text"><strong>Rating each question:</strong> Rate the firm's current state for that dimension — not their answer quality. 1–3 = significant gap or risk, 4–6 = partial or developing capability, 7–8 = solid and functional, 9–10 = best-in-class or fully optimized.</div></div>
+        <div class="ws"><div class="ws-num">4</div><div class="ws-text"><strong>Review the summary:</strong> The Assessment Summary at the bottom of the Framework tab compiles dimension scores live. The Scorecard tab syncs these scores automatically. Use both to identify the top 2–3 priority areas.</div></div>
+        <div class="ws"><div class="ws-num">5</div><div class="ws-text"><strong>Export:</strong> Click "Export Notes" to copy a full text summary of all answers, ratings, and scores to your clipboard for pasting into CRM notes, email, or a follow-up document.</div></div>
+      </div>
+    </div>
+    <div class="about-card">
+      <h3>Scoring Guidance</h3>
+      <p><strong>8–10:</strong> Strong. Acknowledge as a strength and move on.</p>
+      <p><strong>5–7:</strong> Needs attention. Medium-term roadmap items once critical issues are addressed.</p>
+      <p><strong>1–4:</strong> Priority risk. Lead with these. A score below 4 in compliance, operations, or succession represents material risk.</p>
+      <p><strong>Dimension scores</strong> are the average of the five question ratings within that dimension. The overall score is the average across all seven dimensions.</p>
+    </div>
+    <div class="about-card">
+      <h3>Sources & Research Basis</h3>
+      <p>Challenge data and industry context is drawn from Cerulli Associates RIA Marketplace research, Schwab RIA Benchmarking Study, InvestmentNews advisor surveys, Wealth Solutions Report operational benchmarking, DeVoe & Company M&A tracking, and SEC 2026 examination priority guidance.</p>
+    </div>
+  </div>
+
+  <!-- TAB 5: DIAGNOSTIC SUMMARY -->
+  <div id="tab-diag" class="section">
+    <div class="sec-header">
+      <h2>Diagnostic Summary</h2>
+      <p>A full recommendations report generated from your framework scores. Complete the Discovery Framework first, then click Generate below.</p>
+    </div>
+
+    <!-- empty state -->
+    <div id="diag-empty" style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:3rem 2rem;text-align:center;box-shadow:var(--shadow-sm);">
+      <div style="font-size:2.5rem;margin-bottom:1rem;">📋</div>
+      <div style="font-family:'DM Serif Display',serif;font-size:1.25rem;color:var(--navy);margin-bottom:.5rem;">No scores yet</div>
+      <div style="font-size:.875rem;color:var(--muted);margin-bottom:1.5rem;max-width:420px;margin-left:auto;margin-right:auto;">Complete the Discovery Framework — rate at least 3 dimensions — then come back here to generate your summary report.</div>
+      <button onclick="switchTab('framework',document.querySelectorAll('.nav-tab')[1])" style="background:var(--navy);color:var(--gold-light);border:none;border-radius:8px;padding:.65rem 1.5rem;font-family:'DM Sans',sans-serif;font-size:.875rem;font-weight:600;cursor:pointer;">Go to Discovery Framework →</button>
+    </div>
+
+    <!-- report -->
+    <div id="diag-report" style="display:none;">
+
+      <!-- report header -->
+      <div id="diag-header" style="background:linear-gradient(135deg,var(--navy) 0%,var(--navy-mid) 100%);border-radius:var(--radius);padding:2rem 2.25rem;margin-bottom:1.5rem;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(200,146,42,.18) 0%,transparent 70%);pointer-events:none;"></div>
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;">
+          <div>
+            <div style="font-size:.68rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem;">A2 Investment Partners · RIA Firm Diagnostic</div>
+            <div id="diag-firmname" style="font-family:'DM Serif Display',serif;font-size:1.6rem;color:#fff;margin-bottom:.25rem;">Firm Assessment</div>
+            <div id="diag-date-display" style="font-size:.8rem;color:rgba(255,255,255,.5);"></div>
+          </div>
+          <div style="text-align:right;flex-shrink:0;">
+            <div style="font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:.2rem;">Overall Health Score</div>
+            <div id="diag-overall" style="font-family:'DM Serif Display',serif;font-size:3rem;color:var(--gold-light);line-height:1;">—</div>
+            <div id="diag-health-label" style="font-size:.8rem;color:rgba(255,255,255,.6);margin-top:.2rem;font-style:italic;"></div>
+          </div>
+        </div>
+        <!-- mini scorecard bar row -->
+        <div id="diag-mini-scores" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:1.5rem;"></div>
+      </div>
+
+      <!-- context paragraph -->
+      <div id="diag-context" style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem;margin-bottom:1.5rem;box-shadow:var(--shadow-sm);font-size:.9rem;color:#444;line-height:1.75;"></div>
+
+      <!-- scorecard table -->
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:1.5rem;box-shadow:var(--shadow-sm);">
+        <div style="background:var(--navy);padding:.85rem 1.25rem;">
+          <span style="font-family:'DM Serif Display',serif;font-size:1rem;color:var(--gold-light);">Firm Health Scorecard</span>
+        </div>
+        <div id="diag-score-table"></div>
+        <div style="background:var(--cream);padding:.6rem 1.25rem;border-top:1px solid var(--border);font-size:.73rem;font-style:italic;color:var(--muted);">
+          Score guide: &nbsp; <span style="color:var(--red);font-weight:600;">1–4</span> = Priority risk &nbsp;·&nbsp; <span style="color:var(--orange);font-weight:600;">5–6</span> = Elevated &nbsp;·&nbsp; <span style="color:var(--navy-light);font-weight:600;">7–8</span> = Solid &nbsp;·&nbsp; <span style="color:var(--green);font-weight:600;">9–10</span> = Strong
+        </div>
+      </div>
+
+      <!-- priority recommendations -->
+      <div id="diag-recs"></div>
+
+      <!-- strengths section -->
+      <div id="diag-strengths-wrap" style="margin-bottom:1.5rem;display:none;">
+        <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm);">
+          <div style="background:var(--green);padding:.85rem 1.25rem;">
+            <span style="font-family:'DM Serif Display',serif;font-size:1rem;color:#fff;">Firm Strengths — Sustain &amp; Leverage</span>
+          </div>
+          <div id="diag-strengths" style="padding:1.25rem 1.5rem;display:flex;flex-direction:column;gap:.75rem;"></div>
+        </div>
+      </div>
+
+      <!-- next steps footer -->
+      <div style="background:var(--navy);border-radius:var(--radius);padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;box-shadow:var(--shadow-md);">
+        <div>
+          <div style="font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:.3rem;">Recommended next step</div>
+          <div id="diag-next-step" style="font-size:.9rem;color:rgba(255,255,255,.85);line-height:1.5;max-width:560px;"></div>
+        </div>
+        <button onclick="exportDiagnostic()" style="background:var(--gold);color:var(--navy);border:none;border-radius:8px;padding:.65rem 1.25rem;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:background .15s;">📋 Export Report</button>
+      </div>
+
+    </div><!-- /diag-report -->
+
+    <!-- generate button (shown when scores exist but report not yet built) -->
+    <div id="diag-generate-wrap" style="display:none;text-align:center;margin-top:1.5rem;">
+      <button onclick="buildDiagnostic()" style="background:var(--navy);color:var(--gold-light);border:none;border-radius:10px;padding:.85rem 2.5rem;font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:600;cursor:pointer;box-shadow:var(--shadow-md);transition:background .15s,transform .1s;">✦ Generate Diagnostic Summary</button>
+    </div>
+  </div>
+
+</main>
+
+<div class="toast" id="toast">✓ Copied to clipboard</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════════════
+const CHALLENGES = {
+  solo: [
+    { title: "Compliance & regulatory burden", priority: "critical", badge: "Critical",
+      detail: "Compliance is the top challenge for 80%+ of RIA firms per Cerulli, hitting solo firms hardest. Only 18% of RIAs employ dedicated compliance professionals. New SEC 2026 priorities — Reg S-P incident response, AI governance, AML — add layers smaller firms aren't built to absorb.",
+      signals: ["No dedicated CCO", "ADV last reviewed 12+ months ago", "No written cybersecurity policy", "Manual compliance calendar"] },
+    { title: "Operational capacity & time scarcity", priority: "critical", badge: "Critical",
+      detail: "51% of advisors cite administrative overhead as a top growth barrier. Solo advisors spend disproportionate time on back-office tasks that crowd out client-facing work. Without a defined ops model, capacity plateaus well before AUM justifies a hire.",
+      signals: ["Advisor handles scheduling, billing, CRM", "No documented workflows", "Client onboarding takes 2+ weeks", "Reactive rather than proactive operations"] },
+    { title: "Technology stack coherence", priority: "critical", badge: "Critical",
+      detail: "Solo firms often accumulate point solutions that don't integrate, creating manual rework and data silos. Cerulli data shows heavy tech users achieve 3x the above-average growth rate of low-tech peers.",
+      signals: ["5+ disconnected tools", "Manual data re-entry between systems", "No API integrations", "Paying for unused licenses"] },
+    { title: "Organic growth & client acquisition", priority: "critical", badge: "Critical",
+      detail: "57% of all RIAs say new client acquisition is their leading challenge. The Schwab benchmarking study found organic growth contributed just 9.2% of AUM expansion for sub-$250M firms.",
+      signals: ["No CRM pipeline", "Zero marketing budget", "Referral-only growth", "No defined ICP or niche"] },
+    { title: "Succession & continuity planning", priority: "critical", badge: "Critical",
+      detail: "Only 42% of RIA firms have a written succession plan — the lowest level since 2019. For solo advisors, an unplanned exit is a client service crisis.",
+      signals: ["No written succession plan", "No continuity agreement", "No next-gen advisor", "No valuation in 3+ years"] },
+    { title: "Cybersecurity & data protection", priority: "elevated", badge: "Elevated",
+      detail: "SEC 2026 exam priorities explicitly call out cybersecurity governance, Reg S-P incident response, and vendor oversight. Solo firms often run on consumer-grade IT.",
+      signals: ["No MFA on client portals", "No written incident response plan", "Personal email for client communication", "No vendor security assessment"] },
+    { title: "Fee compression & margin pressure", priority: "elevated", badge: "Elevated",
+      detail: "Smaller RIAs saw operating margins hit historic lows in 2024. The 1% AUM fee is under pressure from robo-advisors, direct indexing, and larger RIAs with broader service menus.",
+      signals: ["No fee schedule review in 2+ years", "Fee-only on AUM with no planning retainer", "Losing prospects to larger firms", "No written value proposition"] },
+    { title: "AI adoption & competitive parity", priority: "elevated", badge: "Elevated",
+      detail: "More than half of RIAs now use AI. Altruist, Orion, and others are rapidly embedding AI into core workflows. InvestmentNews reports AI could double advisor productivity.",
+      signals: ["No AI tools in current stack", "Not using AI for meeting prep or note-taking", "Unaware of AI tools from custodian or CRM"] },
+    { title: "Client experience & digital expectations", priority: "watch", badge: "Watch",
+      detail: "Younger HNW clients expect always-on, personalized, transparent digital experiences. A client portal that feels like 2015 is a retention and referral risk.",
+      signals: ["No branded client portal", "Statements mailed or emailed as PDFs", "No digital account opening", "No text/mobile communication option"] },
+    { title: "Talent & capacity to grow", priority: "watch", badge: "Watch",
+      detail: "The industry faces a structural talent shortage. Solo firms can't compete on compensation with aggregators. Without a plan to add capacity, growth stalls at the founder's bandwidth ceiling.",
+      signals: ["No plans to hire in next 2 years", "No intern or associate pipeline", "Founder handles all client relationships", "No equity path for next-gen"] },
+  ],
+  mid: [
+    { title: "Organic growth engine & business development", priority: "critical", badge: "Critical",
+      detail: "Two-thirds of billion-dollar RIA executives cite organic growth as a top strategic priority. Organic growth contributed just 5% of AUM expansion for firms over $250M in 2024.",
+      signals: ["No dedicated BD or marketing role", "Referral-only pipeline", "No CRM-driven growth tracking", "No defined client segmentation model"] },
+    { title: "Technology stack integration & data strategy", priority: "critical", badge: "Critical",
+      detail: "Mid-to-large firms have often accumulated tech through growth, creating vendor sprawl. 35% of billion-dollar RIAs say improving data visibility is their top strategic challenge.",
+      signals: ["No single source of truth for client data", "Multiple billing systems", "Manual reconciliation", "No data warehouse or BI layer"] },
+    { title: "Talent acquisition, development & retention", priority: "critical", badge: "Critical",
+      detail: "9% of all advisors changed firms in 2025 per Cerulli, disproportionately moving into the RIA channel. Mid-size firms must compete against aggregator compensation packages.",
+      signals: ["No formal advisor development program", "No equity path for next-gen", "Advisor attrition in past 18 months", "Compensation benchmarking not done in 2+ years"] },
+    { title: "Succession & ownership transition", priority: "critical", badge: "Critical",
+      detail: "37% of RIAs are expected to retire over the next decade, representing 41% of industry assets per Cerulli. Only 42% of firms have written succession plans.",
+      signals: ["No written succession plan", "Founder age 55+", "No next-gen equity program", "No firm valuation in past 3 years"] },
+    { title: "Compliance infrastructure & regulatory risk", priority: "critical", badge: "Critical",
+      detail: "SEC 2026 exam priorities include fiduciary duty documentation, AI governance, cybersecurity (Reg S-P), AML, and conflicts of interest. Only 18% of RIAs employ compliance professionals.",
+      signals: ["Part-time or outsourced CCO only", "No mock exam in past 2 years", "AI in use with no governance policy", "Off-channel communications not monitored"] },
+    { title: "AI adoption & operational efficiency", priority: "elevated", badge: "Elevated",
+      detail: "83% of billion-dollar RIAs cite advisor time scarcity as a key growth constraint. Mid-size firms must deploy AI purposefully across meeting prep, note-taking, planning, and compliance monitoring.",
+      signals: ["No AI roadmap", "Advisors spending 40%+ time on admin", "No AI-powered notetaker in use", "No CRM automation workflows"] },
+    { title: "Fee structure & service model expansion", priority: "elevated", badge: "Elevated",
+      detail: "73% of HNW-focused practices say tax minimization is among their most important services per Cerulli. Firms still selling only AUM-based portfolio management are losing wallet share.",
+      signals: ["No tax planning capability", "No estate or trust partnership", "Revenue 95%+ from AUM fees", "No UHNW service tier"] },
+    { title: "Client segmentation & service model discipline", priority: "elevated", badge: "Elevated",
+      detail: "Growth without segmentation creates capacity strain. WSR highlights segmentation as critical to operational efficiency and service model tailoring.",
+      signals: ["No written client segmentation model", "Same service model for $200K and $5M clients", "No minimum AUM enforced", "No tiered service menu"] },
+    { title: "Cybersecurity & vendor risk management", priority: "elevated", badge: "Elevated",
+      detail: "The SEC's 2026 priorities specifically cite vendor oversight and third-party risk. Mid-size firms use 10–15+ vendors. A breach at any of them triggers Reg S-P notification obligations.",
+      signals: ["No vendor security assessment process", "No SOC 2 review of critical vendors", "Incident response plan not tested in 12 months", "Client PII accessible via personal devices"] },
+    { title: "Marketing, brand & digital presence", priority: "watch", badge: "Watch",
+      detail: "WSR reports firms with advanced digital engines command stronger valuations in M&A. Digital marketing capability is now a diligence factor.",
+      signals: ["Website not updated in 2+ years", "No content or thought leadership program", "No defined referral or COI strategy", "No social media presence for advisors"] },
+  ],
+  agg: [
+    { title: "Post-merger integration & culture preservation", priority: "critical", badge: "Critical",
+      detail: "DeVoe reports 322 RIA M&A deals in 2025. Post-close failure is most often caused by cultural mismatch and advisor attrition. Integration is now the defining challenge for serial acquirers.",
+      signals: ["No formal cultural assessment pre-close", "Advisor attrition post-acquisition", "Multiple disconnected compliance programs", "No unified brand or service model"] },
+    { title: "Technology harmonization across acquired firms", priority: "critical", badge: "Critical",
+      detail: "Each acquisition brings its own CRM, portfolio reporting, custodian, and planning tools. Building a unified tech stack across 10+ acquired firms is a multi-year, multi-million dollar project.",
+      signals: ["5+ CRM platforms across the enterprise", "No enterprise data layer", "Custodian fragmentation", "No standardized onboarding workflow"] },
+    { title: "Organic growth vs. inorganic dependence", priority: "critical", badge: "Critical",
+      detail: "AdvisorHub: 'the industry has dropped the ball on organic growth drivers.' PE-backed firms that relied on buying capabilities are now seeing that strategy catch up with them.",
+      signals: ["Organic growth <3% of AUM expansion", "No enterprise marketing function", "No standardized advisor BD playbook", "No CRM-driven pipeline at enterprise level"] },
+    { title: "PE exit timeline & valuation pressure", priority: "critical", badge: "Critical",
+      detail: "PE-backed aggregators face increasing pressure to show growth and margin improvement ahead of recap or exit. Goldman's David Waldron advises RIA leaders to avoid too many AI projects simultaneously.",
+      signals: ["PE hold period approaching 5+ years", "EBITDA margin flat or declining", "No clear path to next recap or sale", "Tech spend not mapped to revenue outcomes"] },
+    { title: "Compliance at enterprise scale", priority: "critical", badge: "Critical",
+      detail: "Aggregators operating across multiple states, custodians, and regulatory registrations face compounding complexity. SEC 2026 priorities include AI governance, AML, Reg S-P, and off-channel communications.",
+      signals: ["No unified CCO or compliance function", "Multiple ADV filings not harmonized", "Off-channel monitoring fragmented", "No enterprise-wide AI governance policy"] },
+    { title: "Data infrastructure & business intelligence", priority: "critical", badge: "Critical",
+      detail: "35% of billion-dollar RIAs cite improving data visibility as their top strategic challenge. Without a unified data layer, aggregators cannot benchmark performance or track KPIs consistently.",
+      signals: ["No enterprise data warehouse", "Performance reporting varies by entity", "No unified client profitability analysis", "CRM data quality inconsistent"] },
+    { title: "Talent strategy & next-gen advisor pipeline", priority: "elevated", badge: "Elevated",
+      detail: "The talent shortage is structural. Aggregators must build enterprise-wide talent programs or face advisor attrition that erodes acquired book value.",
+      signals: ["No enterprise talent development program", "Equity paths vary widely by acquired firm", "Advisor attrition above 5% annually", "No recruiting partnerships or campus programs"] },
+    { title: "AI strategy & governance at scale", priority: "elevated", badge: "Elevated",
+      detail: "Goldman Sachs warns against pursuing 15–20 AI projects simultaneously. Aggregators face pressure to deploy AI enterprise-wide — but without governance, they face SEC scrutiny.",
+      signals: ["No enterprise AI policy", "AI tools deployed inconsistently", "No AI governance or model risk framework", "AI spend not linked to measurable outcomes"] },
+    { title: "Client experience standardization", priority: "elevated", badge: "Elevated",
+      detail: "Post-acquisition, client experience quality varies dramatically across entities. HNW clients expect a consistent, high-touch, digitally enabled experience regardless of which acquired firm they work with.",
+      signals: ["No unified client portal", "Client satisfaction not tracked at enterprise level", "Onboarding experience varies by entity", "No enterprise NPS program"] },
+    { title: "Regulatory & legal risk from M&A activity", priority: "watch", badge: "Watch",
+      detail: "2026 M&A diligence now must include cybersecurity posture mapping, AI-capability audits, and off-channel communication compliance. Generalist attorneys lack RIA deal dynamics expertise.",
+      signals: ["No specialized M&A legal counsel with RIA expertise", "Cybersecurity not in diligence checklist", "Off-channel compliance not audited pre-close", "No integration legal playbook"] },
+  ]
+};
+
+const FRAMEWORK = [
+  { id: 'gtm',        icon: "📈", title: "Go-to-Market & Growth",
+    qs: [
+      { q: "What % of new clients came from referrals vs. marketing vs. BD last year?",    ph: "e.g. 90% referral, no formal marketing, no BD activity tracked…" },
+      { q: "Do you have a defined ICP (ideal client profile) or client niche?",             ph: "e.g. Describes a niche but nothing written, targets retirees broadly…" },
+      { q: "Is there a formal CRM pipeline with stage-based tracking?",                     ph: "e.g. Using Redtail but no pipeline stages set up, no opportunity tracking…" },
+      { q: "How is advisor BD time tracked and managed?",                                   ph: "e.g. No tracking, BD happens ad-hoc, no BD goals or accountability…" },
+      { q: "What is your organic AUM growth rate over the past 12 months?",                 ph: "e.g. ~4% organic, mostly from existing client referrals, no new channel…" },
+    ]},
+  { id: 'tech',       icon: "💻", title: "Technology & Data",
+    qs: [
+      { q: "How many platforms are in the tech stack today?",                               ph: "e.g. CRM, planning software, portfolio reporting, custodian portal — 6+ tools…" },
+      { q: "Where does manual data re-entry happen most frequently?",                       ph: "e.g. Re-enters client data from CRM into planning tool and billing system…" },
+      { q: "Do you have a single source of truth for client data?",                         ph: "e.g. CRM is supposed to be, but planning tool has different data, no sync…" },
+      { q: "What is annual tech spend as a % of revenue, and is ROI tracked?",              ph: "e.g. Doesn't know, pays per seat for multiple tools, no ROI assessment…" },
+      { q: "Which AI tools are currently in use, if any?",                                  ph: "e.g. Using Otter.ai for meeting notes, custodian has AI but not activated…" },
+    ]},
+  { id: 'ops',        icon: "⚙️", title: "Operations",
+    qs: [
+      { q: "How long does the client onboarding process take from signed agreement to first meeting?", ph: "e.g. 2–3 weeks, lots of paper, custodian forms are a bottleneck…" },
+      { q: "What operational tasks consume the most advisor time each week?",               ph: "e.g. Billing, account maintenance, rebalancing requests, client emails…" },
+      { q: "Are workflows documented, and do all staff follow consistent processes?",       ph: "e.g. Mostly in people's heads, no written SOPs, varies by person…" },
+      { q: "What is the current client-to-advisor ratio?",                                  ph: "e.g. ~120:1, feels stretched, some clients not getting proactive contact…" },
+      { q: "Where are the biggest operational bottlenecks today?",                          ph: "e.g. Account opening, year-end tax reporting, new client intake process…" },
+    ]},
+  { id: 'comp',       icon: "🛡️", title: "Compliance & Risk",
+    qs: [
+      { q: "When was the last mock SEC exam or formal internal compliance review?",         ph: "e.g. Never had one, or 3 years ago, no ongoing compliance calendar…" },
+      { q: "Is there a written cybersecurity policy and incident response plan?",           ph: "e.g. No written policy, uses basic antivirus, no breach response plan…" },
+      { q: "Who serves as CCO — full-time, part-time, or outsourced?",                     ph: "e.g. Founder is CCO, no dedicated time, compliance is reactive not proactive…" },
+      { q: "Are off-channel communications (text, WhatsApp) monitored or archived?",       ph: "e.g. Advisors text clients, no archiving, not aware this is a requirement…" },
+      { q: "Is there a formal AI governance policy covering tools in use?",                 ph: "e.g. No policy, using AI tools without documented oversight or controls…" },
+    ]},
+  { id: 'people',     icon: "👥", title: "People & Talent",
+    qs: [
+      { q: "What is the advisor attrition rate over the past 2 years?",                    ph: "e.g. Lost 1 advisor last year, suspect another is looking, no exit interviews…" },
+      { q: "Is there a structured next-gen advisor development program?",                   ph: "e.g. Have an associate but no formal training plan or career roadmap…" },
+      { q: "Do next-gen advisors have a clear, documented path to equity or ownership?",    ph: "e.g. Vague conversations but nothing written, no valuation done for buyout…" },
+      { q: "Where are the most significant staffing gaps today?",                           ph: "e.g. No ops person, founder handles admin, need a paraplanner badly…" },
+      { q: "How does the firm compete for talent vs. aggregators and larger RIAs?",        ph: "e.g. Can't compete on comp, relies on culture and autonomy pitch…" },
+    ]},
+  { id: 'bd',         icon: "🤝", title: "Business Development",
+    qs: [
+      { q: "Does each advisor have a written BD plan with goals and activities?",           ph: "e.g. No written plan, no BD goals, business comes in when it comes in…" },
+      { q: "Are COIs and referral sources formally tracked and managed in CRM?",            ph: "e.g. Knows who the top CPAs are but no structured contact program…" },
+      { q: "What marketing programs are currently active?",                                 ph: "e.g. Nothing active, sent a newsletter once, website not updated in 2 years…" },
+      { q: "How is the firm differentiated vs. local and national competitors?",            ph: "e.g. Hasn't thought about it, talks about 'relationships' and 'service'…" },
+      { q: "What is the typical close rate on qualified prospect conversations?",           ph: "e.g. Doesn't track, thinks it's high but can't say, no formal pipeline…" },
+    ]},
+  { id: 'succession', icon: "🔄", title: "Succession & Continuity",
+    qs: [
+      { q: "Is there a written succession plan?",                                           ph: "e.g. Has thought about it but nothing documented, spouse would inherit?…" },
+      { q: "Has the firm been formally valued by an independent firm in the past 3 years?", ph: "e.g. No formal valuation, used a rough multiple estimate informally…" },
+      { q: "Who would manage client relationships if the founder was suddenly unable to?",  ph: "e.g. No one formally designated, clients would be adrift…" },
+      { q: "Is there a continuity agreement with another RIA or advisor in place?",         ph: "e.g. No agreement, hasn't explored options, knows it's important…" },
+      { q: "What is the intended exit horizon and preferred transition structure?",         ph: "e.g. Wants to retire in 8–10 years, open to internal or external sale…" },
+    ]},
+];
+
+const SC_DIMS = ["Go-to-market & growth","Technology & data","Operations","Compliance & risk","People & talent","Business development","Succession & continuity"];
+const FW_IDS  = ['gtm','tech','ops','comp','people','bd','succession'];
+
+// State: ratings[dimId][qIdx] = 1-10 | null
+const ratings = {};
+const notes   = {};
+FW_IDS.forEach(id => { ratings[id] = [null,null,null,null,null]; notes[id] = ['','','','','']; });
+
+// ═══════════════════════════════════════════════════════
+// CHALLENGES
+// ═══════════════════════════════════════════════════════
+function buildChallenges(seg) {
+  const el = document.getElementById('ch-' + seg);
+  if (el.dataset.built) return;
+  el.dataset.built = '1';
+  el.innerHTML = CHALLENGES[seg].map((c, i) => `
+    <div class="ch-card priority-${c.priority}" onclick="toggleCard(this)">
+      <div class="ch-header">
+        <div class="ch-num">${i+1}</div>
+        <div class="ch-title">${c.title}</div>
+        <div class="ch-pill">${c.badge}</div>
+        <div class="ch-chevron">▼</div>
+      </div>
+      <div class="ch-body">
+        <p>${c.detail}</p>
+        <div class="signals-label">Discovery signals</div>
+        <div class="signals-wrap">${c.signals.map(s => `<span class="signal-tag">${s}</span>`).join('')}</div>
+      </div>
+    </div>`).join('');
+}
+function toggleCard(el) { el.classList.toggle('open'); }
+function setSeg(seg, btn) {
+  document.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.challenges').forEach(c => c.classList.remove('active'));
+  document.getElementById('ch-' + seg).classList.add('active');
+  buildChallenges(seg);
+}
+
+// ═══════════════════════════════════════════════════════
+// FRAMEWORK — build interactive interview cards
+// ═══════════════════════════════════════════════════════
+function buildFramework() {
+  const container = document.getElementById('fw-dims');
+  if (container.dataset.built) return;
+  container.dataset.built = '1';
+
+  container.innerHTML = FRAMEWORK.map(dim => `
+    <div class="fw-dim" id="fwdim-${dim.id}">
+      <div class="fw-dim-header" onclick="toggleDim('${dim.id}')">
+        <span class="fw-dim-icon">${dim.icon}</span>
+        <span class="fw-dim-title">${dim.title}</span>
+        <div class="fw-dim-score-pill empty" id="pill-${dim.id}">Not started</div>
+        <span class="fw-dim-chevron">▼</span>
+      </div>
+      <div class="fw-dim-progress"><div class="fw-dim-progress-fill" id="dimprog-${dim.id}" style="width:0%"></div></div>
+      <div class="fw-dim-body" id="fwbody-${dim.id}">
+        ${dim.qs.map((qo, qi) => `
+          <div class="fw-q-row">
+            <div class="fw-q-left">
+              <div class="fw-q-text">${qo.q}</div>
+              <textarea class="fw-q-notes"
+                placeholder="${qo.ph}"
+                oninput="saveNote('${dim.id}',${qi},this.value)"
+                rows="2">${notes[dim.id][qi]}</textarea>
+            </div>
+            <div class="fw-q-rating">
+              <label>Rating</label>
+              <div class="rating-pips" id="pips-${dim.id}-${qi}">
+                ${[1,2,3,4,5,6,7,8,9,10].map(n => `<div class="pip" onclick="setRating('${dim.id}',${qi},${n})" title="${n}/10">${n}</div>`).join('')}
+              </div>
+              <div class="rating-val" id="rval-${dim.id}-${qi}">—</div>
+            </div>
+          </div>`).join('')}
+        <div class="fw-dim-footer">
+          <div class="fw-dim-footer-label">Dimension score</div>
+          <div class="fw-dim-footer-bar"><div class="fw-dim-footer-fill" id="dfill-${dim.id}" style="width:0%;background:var(--border)"></div></div>
+          <div class="fw-dim-footer-val" id="dval-${dim.id}">—</div>
+          <div class="fw-dim-footer-note" id="dnote-${dim.id}">Rate questions above</div>
+        </div>
+      </div>
+    </div>`).join('');
+
+  buildSummaryGrid();
+}
+
+function toggleDim(id) {
+  const el = document.getElementById('fwdim-' + id);
+  el.classList.toggle('open');
+}
+
+function saveNote(dimId, qi, val) {
+  notes[dimId][qi] = val;
+}
+
+function setRating(dimId, qi, val) {
+  ratings[dimId][qi] = val;
+  renderPips(dimId, qi, val);
+  updateDimScore(dimId);
+  updateProgress();
+  updateSummaryGrid();
+  syncToScorecard();
+}
+
+function renderPips(dimId, qi, selected) {
+  const container = document.getElementById(`pips-${dimId}-${qi}`);
+  const pips = container.querySelectorAll('.pip');
+  const cls = selected <= 3 ? 'sel-low' : selected <= 6 ? 'sel-mid' : selected <= 8 ? 'sel-good' : 'sel-high';
+  pips.forEach((pip, i) => {
+    const n = i + 1;
+    pip.className = 'pip';
+    if (n === selected) pip.classList.add(cls);
+    else pip.classList.add('faded');
+  });
+  const rv = document.getElementById(`rval-${dimId}-${qi}`);
+  rv.textContent = selected + '/10';
+  const colors = { 'sel-low': 'var(--red)', 'sel-mid': 'var(--orange)', 'sel-good': 'var(--navy-light)', 'sel-high': 'var(--green)' };
+  rv.style.color = colors[cls];
+}
+
+function getDimScore(dimId) {
+  const vals = ratings[dimId].filter(v => v !== null);
+  if (!vals.length) return null;
+  return vals.reduce((a,b) => a+b, 0) / vals.length;
+}
+
+function getDimAnswered(dimId) {
+  return ratings[dimId].filter(v => v !== null).length;
+}
+
+function updateDimScore(dimId) {
+  const score = getDimScore(dimId);
+  const answered = getDimAnswered(dimId);
+  const total = 5;
+  const pct = (answered / total) * 100;
+
+  // progress bar inside header
+  document.getElementById(`dimprog-${dimId}`).style.width = pct + '%';
+
+  // footer bar + value
+  const fill  = document.getElementById(`dfill-${dimId}`);
+  const dval  = document.getElementById(`dval-${dimId}`);
+  const dnote = document.getElementById(`dnote-${dimId}`);
+
+  if (score === null) {
+    fill.style.width = '0%';
+    fill.style.background = 'var(--border)';
+    dval.textContent = '—';
+    dval.style.color = 'var(--muted)';
+    dnote.textContent = 'Rate questions above';
+  } else {
+    const pctScore = (score / 10) * 100;
+    const color = scoreColor(score);
+    fill.style.width = pctScore + '%';
+    fill.style.background = color;
+    dval.textContent = score.toFixed(1) + '/10';
+    dval.style.color = color;
+    dnote.textContent = answered < total ? `${answered} of ${total} rated` : 'All questions rated';
+  }
+
+  // header pill
+  const pill = document.getElementById(`pill-${dimId}`);
+  pill.className = 'fw-dim-score-pill';
+  if (answered === 0) {
+    pill.classList.add('empty');
+    pill.textContent = 'Not started';
+  } else if (answered < total) {
+    pill.classList.add('partial');
+    pill.textContent = `${answered}/${total} · ${score !== null ? score.toFixed(1) : '—'}`;
+  } else {
+    const tier = score >= 8 ? 'complete-high' : score >= 6 ? 'complete-good' : score >= 4 ? 'complete-mid' : 'complete-low';
+    pill.classList.add(tier);
+    pill.textContent = score.toFixed(1) + '/10';
+  }
+}
+
+function scoreColor(s) {
+  if (s >= 8) return 'var(--green)';
+  if (s >= 6) return 'var(--navy-light)';
+  if (s >= 4) return 'var(--orange)';
+  return 'var(--red)';
+}
+
+function scoreLabel(s) {
+  if (s === null) return 'Not rated';
+  if (s >= 8) return 'Strong';
+  if (s >= 6) return 'Needs attention';
+  if (s >= 4) return 'Elevated risk';
+  return 'Priority risk';
+}
+
+function updateProgress() {
+  const totalQs = FW_IDS.length * 5;
+  const answered = FW_IDS.reduce((sum, id) => sum + getDimAnswered(id), 0);
+  document.getElementById('fw-progress').style.width = ((answered / totalQs) * 100) + '%';
+}
+
+// ═══════════════════════════════════════════════════════
+// SUMMARY GRID
+// ═══════════════════════════════════════════════════════
+function buildSummaryGrid() {
+  const g = document.getElementById('fw-summary-grid');
+  g.innerHTML = FRAMEWORK.map(dim => `
+    <div class="fw-sum-cell" onclick="openDim('${dim.id}')" title="Click to open ${dim.title}">
+      <div class="fw-sum-cell-icon">${dim.icon}</div>
+      <div class="fw-sum-cell-name">${dim.title}</div>
+      <div class="fw-sum-cell-score" id="sumsc-${dim.id}" style="color:var(--muted)">—</div>
+      <div class="fw-sum-cell-bar"><div class="fw-sum-cell-fill" id="sumfill-${dim.id}" style="width:0%;background:var(--border)"></div></div>
+      <div class="fw-sum-cell-status" id="sumstat-${dim.id}">Not started</div>
+    </div>`).join('');
+}
+
+function openDim(id) {
+  switchTab('framework', document.querySelector('.nav-tab:nth-child(2)'));
+  const el = document.getElementById('fwdim-' + id);
+  if (el && !el.classList.contains('open')) el.classList.add('open');
+  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function updateSummaryGrid() {
+  let scoredCount = 0, total = 0;
+  FW_IDS.forEach(id => {
+    const score    = getDimScore(id);
+    const answered = getDimAnswered(id);
+    const sumsc    = document.getElementById(`sumsc-${id}`);
+    const sumfill  = document.getElementById(`sumfill-${id}`);
+    const sumstat  = document.getElementById(`sumstat-${id}`);
+    if (score !== null) {
+      sumsc.textContent = score.toFixed(1);
+      sumsc.style.color = scoreColor(score);
+      sumfill.style.width = (score / 10 * 100) + '%';
+      sumfill.style.background = scoreColor(score);
+      sumstat.textContent = scoreLabel(score) + (answered < 5 ? ` (${answered}/5)` : '');
+      scoredCount++;
+      total += score;
+    } else {
+      sumsc.textContent = '—';
+      sumsc.style.color = 'var(--muted)';
+      sumfill.style.width = '0%';
+      sumfill.style.background = 'var(--border)';
+      sumstat.textContent = 'Not started';
+    }
+  });
+
+  const overall = document.getElementById('fw-overall-score');
+  if (scoredCount > 0) {
+    const avg = (total / scoredCount).toFixed(1);
+    overall.innerHTML = `${avg}<span> /10</span>`;
+    overall.style.color = scoreColor(parseFloat(avg));
+  } else {
+    overall.innerHTML = `—<span> /10</span>`;
+    overall.style.color = '#fff';
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// SYNC TO SCORECARD TAB
+// ═══════════════════════════════════════════════════════
+function syncToScorecard() {
+  FW_IDS.forEach((id, i) => {
+    const score = getDimScore(id);
+    if (score === null) return;
+    const v = Math.round(score);
+    const slider = document.querySelector(`#scorecard-rows .sc-row:nth-child(${i+1}) input[type=range]`);
+    if (slider) {
+      slider.value = v;
+      updateSlider(i, v);
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+// SCORECARD TAB (manual sliders)
+// ═══════════════════════════════════════════════════════
+function getColor(v) {
+  if (v >= 8) return 'green';
+  if (v >= 6) return 'blue';
+  if (v >= 4) return 'orange';
+  return 'red';
+}
+
+function buildScorecard() {
+  const c = document.getElementById('scorecard-rows');
+  if (c.dataset.built) return;
+  c.dataset.built = '1';
+  c.innerHTML = SC_DIMS.map((dim, i) => `
+    <div class="sc-row">
+      <div class="sc-label">${dim}</div>
+      <div class="sc-track">
+        <div class="sc-rail">
+          <div class="sc-fill fill-blue" id="fill-${i}" style="width:50%"></div>
+          <div class="sc-thumb" id="thumb-${i}" style="left:calc(50% - 9px); background: var(--navy-light)"></div>
+          <input type="range" min="1" max="10" value="5" step="1"
+            oninput="updateSlider(${i}, this.value)"
+            aria-label="${dim} score">
+        </div>
+      </div>
+      <div class="sc-val text-blue" id="val-${i}">5</div>
+    </div>`).join('');
+  updateTotal();
+  syncToScorecard();
+}
+
+function updateSlider(i, v) {
+  const pct = ((v - 1) / 9) * 100;
+  const col = getColor(parseInt(v));
+  const colorMap = { green: 'var(--green)', blue: 'var(--navy-light)', orange: 'var(--orange)', red: 'var(--red)' };
+  const fill  = document.getElementById('fill-' + i);
+  const thumb = document.getElementById('thumb-' + i);
+  const val   = document.getElementById('val-' + i);
+  if (!fill) return;
+  fill.style.width = pct + '%';
+  fill.className = `sc-fill fill-${col}`;
+  thumb.style.left = `calc(${pct}% - 9px)`;
+  thumb.style.background = colorMap[col];
+  val.textContent = v;
+  val.className = `sc-val text-${col}`;
+  updateTotal();
+}
+
+function updateTotal() {
+  const vals = SC_DIMS.map((_, i) => parseInt(document.getElementById('val-' + i)?.textContent || 5));
+  const avg  = (vals.reduce((a, b) => a + b, 0) / vals.length).toFixed(1);
+  const col  = getColor(parseFloat(avg));
+  const colorMap = { green: 'var(--green)', blue: 'var(--navy-light)', orange: 'var(--orange)', red: 'var(--red)' };
+  const sd = document.getElementById('score-display');
+  if (sd) { sd.textContent = avg + '/10'; sd.style.color = colorMap[col]; }
+  const interps = [
+    [8, "Strong firm health. Focus on sustaining competitive advantages and scaling what works."],
+    [6, "Solid foundation with clear improvement opportunities. Prioritize the 2–3 lowest-scored areas."],
+    [4, "Meaningful gaps across multiple dimensions. Structured intervention recommended."],
+    [0, "Significant risk exposure. Urgent attention needed before growth is safely accelerated."]
+  ];
+  const si = document.getElementById('score-interp');
+  if (si) si.textContent = interps.find(([t]) => parseFloat(avg) >= t)[1];
+}
+
+function copyScorecard() {
+  const vals  = SC_DIMS.map((d, i) => `${d}: ${document.getElementById('val-' + i)?.textContent || 5}/10`);
+  const total = document.getElementById('score-display').textContent;
+  const text  = `A2 Investment Partners — RIA Diagnostic Scorecard\nOverall: ${total}\n\n${vals.join('\n')}`;
+  navigator.clipboard.writeText(text).catch(() => {});
+  showToast('✓ Scorecard copied to clipboard');
+}
+
+// ═══════════════════════════════════════════════════════
+// EXPORT FRAMEWORK NOTES
+// ═══════════════════════════════════════════════════════
+function updateFirmName() {}
+
+function exportFramework() {
+  const firm = document.getElementById('firm-name').value || 'Unnamed Firm';
+  const date = document.getElementById('meeting-date').value || new Date().toLocaleDateString();
+  let out = `A2 INVESTMENT PARTNERS — RIA DIAGNOSTIC\n`;
+  out += `Firm: ${firm}  |  Date: ${date}\n`;
+  out += `${'═'.repeat(60)}\n\n`;
+
+  let overallSum = 0, overallCount = 0;
+  FRAMEWORK.forEach(dim => {
+    const score = getDimScore(dim.id);
+    out += `${dim.icon} ${dim.title.toUpperCase()}`;
+    out += score !== null ? `  →  ${score.toFixed(1)}/10\n` : `  →  Not rated\n`;
+    out += `${'-'.repeat(50)}\n`;
+    dim.qs.forEach((qo, qi) => {
+      const r = ratings[dim.id][qi];
+      const n = notes[dim.id][qi];
+      out += `  Q${qi+1}: ${qo.q}\n`;
+      out += `  Rating: ${r !== null ? r + '/10' : 'Not rated'}\n`;
+      if (n) out += `  Notes: ${n}\n`;
+      out += '\n';
+    });
+    if (score !== null) { overallSum += score; overallCount++; }
+    out += '\n';
+  });
+
+  out += `${'═'.repeat(60)}\n`;
+  out += `OVERALL SCORE: ${overallCount ? (overallSum/overallCount).toFixed(1) + '/10' : 'Not rated'}\n`;
+  out += `(Based on ${overallCount} of 7 dimensions rated)\n`;
+
+  navigator.clipboard.writeText(out).catch(() => {});
+  showToast('✓ Full notes exported to clipboard');
+}
+
+// ═══════════════════════════════════════════════════════
+// TABS & UTILS
+// ═══════════════════════════════════════════════════════
+function switchTab(id, btn) {
+  document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  else {
+    const tabs = document.querySelectorAll('.nav-tab');
+    const map = { challenges: 0, framework: 1, scorecard: 2, diag: 3, about: 4 };
+    if (map[id] !== undefined) tabs[map[id]].classList.add('active');
+  }
+  document.getElementById('tab-' + id).classList.add('active');
+  if (id === 'framework') { buildFramework(); updateSummaryGrid(); }
+  if (id === 'scorecard') { buildScorecard(); }
+  if (id === 'diag') { initDiagTab(); }
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ═══════════════════════════════════════════════════════
+// DIAGNOSTIC SUMMARY ENGINE
+// ═══════════════════════════════════════════════════════
+
+const DIM_META = {
+  gtm:        { icon: '📈', label: 'Go-to-Market & Growth',     scLabel: 'Go-to-market & growth' },
+  tech:       { icon: '💻', label: 'Technology & Data',          scLabel: 'Technology & data' },
+  ops:        { icon: '⚙️', label: 'Operations',                 scLabel: 'Operations' },
+  comp:       { icon: '🛡️', label: 'Compliance & Risk',          scLabel: 'Compliance & risk' },
+  people:     { icon: '👥', label: 'People & Talent',            scLabel: 'People & talent' },
+  bd:         { icon: '🤝', label: 'Business Development',       scLabel: 'Business development' },
+  succession: { icon: '🔄', label: 'Succession & Continuity',    scLabel: 'Succession & continuity' },
+};
+
+// Per-dimension recommendation content keyed by score tier
+const DIM_RECS = {
+  gtm: {
+    low:  { headline: 'Build a growth engine from scratch',
+            context: 'The firm has no systematic approach to client acquisition. Growth is entirely opportunistic — relying on informal referrals with no CRM pipeline, no defined ideal client profile, and no marketing investment. Industry data shows organic growth contributed just 9.2% of AUM expansion for sub-$250M firms in 2024, and firms without formal growth infrastructure are increasingly being left behind as the RIA market consolidates around better-capitalized competitors.',
+            actions: ['Define a written Ideal Client Profile (ICP) and niche positioning statement', 'Implement CRM pipeline with stage-based tracking and BD activity logging', 'Launch a formal COI referral program with CPAs, estate attorneys, and bankers', 'Set advisor BD goals with weekly activity accountability'],
+            solutions: ['Wealthbox or Redtail (CRM with pipeline)', 'Snappy Kraken or FMG Suite (advisor marketing automation)', 'FINNY AI (AI-powered lead generation)', 'Advisor Growth Strategies (BD process consulting)'] },
+    mid:  { headline: 'Formalize and systematize the growth function',
+            context: 'The firm has the foundations of a growth strategy but lacks the systems and discipline to scale it. Referrals are coming in but are not being tracked or optimized. Marketing activity is sporadic. Without a formalized BD infrastructure, the firm will plateau at current AUM levels.',
+            actions: ['Formalize COI tracking and engagement cadence in CRM', 'Develop a content and thought leadership calendar tied to the firm\'s niche', 'Implement referral program with measurable tracking', 'Define conversion metrics and close rate benchmarks'],
+            solutions: ['Salesforce FSC or Practifi (pipeline and COI management)', 'FMG Suite or Broadridge AdvisorStream (content marketing)', 'Nitrogen / Riskalyze (prospect engagement tools)', 'Ficomm Partners (marketing strategy for RIAs)'] },
+    high: { headline: 'Sustain and scale the growth engine',
+            context: 'The firm has a strong GTM foundation. The priority is ensuring scalability — that growth systems can support significantly higher AUM without proportional headcount increases, and that the marketing investment continues to generate measurable ROI.',
+            actions: ['Audit conversion rates and optimize top-of-funnel channels', 'Evaluate digital marketing ROI and expand highest-performing channels', 'Build referral analytics to identify top COI sources and replicate them'],
+            solutions: ['Google Analytics + HubSpot (digital performance tracking)', 'RIA Intelligence (competitive benchmarking)', 'Advisor Growth Strategies (growth strategy optimization)'] },
+  },
+  tech: {
+    low:  { headline: 'Conduct a full tech stack audit and integration plan',
+            context: 'The firm is operating with a fragmented, poorly integrated technology environment. Point solutions accumulated over time are creating manual rework, data inconsistencies, and advisor time drain. Cerulli data shows heavy tech users achieve 3x the above-average growth rate of low-tech peers. The current tech posture is a direct drag on both efficiency and competitive positioning.',
+            actions: ['Audit every platform in the stack — map cost, usage, and integration points', 'Identify the top 3 sources of manual re-entry and prioritize eliminating them', 'Evaluate unified platform options to consolidate CRM, planning, and reporting', 'Establish a single source of truth for client data'],
+            solutions: ['Orion Advisor Tech (unified CRM, planning, reporting, trading)', 'Envestnet | Tamarac (integrated RIA platform)', 'Altruist (modern custody + integrated tools)', 'Addepar or Black Diamond (portfolio reporting)', 'RightCapital or eMoney (financial planning)'] },
+    mid:  { headline: 'Close integration gaps and activate AI capabilities',
+            context: 'The firm has the core technology in place but gaps in integration are creating friction. Data flows between systems require manual steps, and AI tools available through existing vendors have not been activated. Closing these gaps would meaningfully improve advisor productivity and client experience.',
+            actions: ['Map data flows between CRM, planning, and reporting — identify re-entry points', 'Activate AI features available in existing platforms (CRM AI, planning AI, note-taking)', 'Evaluate data API integrations to automate client data synchronization', 'Establish a tech roadmap with quarterly review cadence'],
+            solutions: ['Zapier or native API integrations (workflow automation)', 'Otter.ai or Fireflies.ai (AI meeting notes)', 'Orion AI or Wealthbox AI (CRM-native AI)', 'YCharts (data and analytics layer)'] },
+    high: { headline: 'Optimize and future-proof the tech advantage',
+            context: 'The firm has a strong technology foundation that is generating competitive advantage. The priority is ensuring the stack remains current as AI capabilities evolve rapidly in 2026, and that the firm\'s data architecture supports business intelligence and client insight at scale.',
+            actions: ['Conduct annual tech stack review to assess new AI capabilities', 'Evaluate business intelligence layer for client profitability and retention analytics', 'Ensure cybersecurity posture matches technology sophistication'],
+            solutions: ['Tableau or Power BI (business intelligence)', 'Practifi (enterprise data and analytics for RIAs)', 'Domo (executive dashboard for firm metrics)'] },
+  },
+  ops: {
+    low:  { headline: 'Build operational infrastructure before scaling further',
+            context: 'Operations represents a critical bottleneck. Manual processes, undocumented workflows, and reactive task management are consuming advisor time that should be client-facing. 51% of advisors cite administrative overhead as a top growth barrier. At current operational maturity, adding clients without fixing the underlying infrastructure will create service delivery failures, not leverage.',
+            actions: ['Document the top 5 most time-consuming workflows and create written SOPs', 'Map and streamline the client onboarding process — target under 5 business days', 'Evaluate client-to-advisor ratio and identify capacity ceiling', 'Implement task management and workflow automation in CRM'],
+            solutions: ['Docupace or PreciseFP (digital client onboarding and document management)', 'Practifi (operations management for RIAs)', 'Riskalyze / Nitrogen (client segmentation and service tiers)', 'Orion or Tamarac (rebalancing and trading automation)', 'Advisor Engine (operations platform)'] },
+    mid:  { headline: 'Systematize operations and enforce service model discipline',
+            context: 'Core operational processes exist but lack the consistency and documentation needed to scale efficiently. Client experience varies depending on who handles a task, and the firm has not fully implemented a tiered service model aligned to client segmentation. These gaps will compound as AUM grows.',
+            actions: ['Complete written SOPs for all client-facing and back-office processes', 'Implement client segmentation model with differentiated service tiers', 'Set and enforce minimum AUM threshold with grandfathering policy', 'Review client-to-advisor ratio and hire/automate ahead of capacity ceiling'],
+            solutions: ['Wealthbox or Redtail (CRM workflow automation)', 'SmartOffice or Envestnet | ENV2 (practice management)', 'Client Segmentation consulting via Ensemble Practice', 'Orion or Addepar (reporting automation to reduce manual work)'] },
+    high: { headline: 'Leverage operational excellence as a competitive differentiator',
+            context: 'The firm\'s operational foundation is strong. The priority is ensuring that as the firm grows, operational efficiency scales with it rather than degrading — and that operational strength becomes a visible differentiator in the client and recruiting experience.',
+            actions: ['Audit operations annually against industry benchmarks', 'Evaluate whether automation investments are generating measurable time savings', 'Use operational strength as a recruiting message for next-gen advisors'],
+            solutions: ['Cerulli benchmarking data (operational peer comparison)', 'Advisor Growth Strategies (positioning operational strength externally)'] },
+  },
+  comp: {
+    low:  { headline: '⚠️ Urgent: Compliance infrastructure is a firm-stopping risk',
+            context: 'This is the most time-sensitive finding in the diagnostic. A compliance score at this level — combined with the SEC\'s 2026 examination priorities — represents material regulatory risk. The SEC\'s current exam focus areas include: cybersecurity governance and Reg S-P incident response (required as of June 2026), AI usage governance, AML program adequacy, fiduciary duty documentation, and off-channel communications monitoring. A firm without documented programs in these areas is exposed on every dimension regulators are currently prioritizing. This must be treated as a prerequisite to any growth initiative.',
+            actions: ['Engage an independent compliance consultant for an immediate gap assessment', 'Establish a written cybersecurity policy and Reg S-P incident response plan', 'Designate a qualified CCO with dedicated time and documented authority', 'Implement off-channel communications monitoring and archiving', 'Draft an AI governance policy covering all tools currently in use', 'Schedule a mock SEC examination before the next filing cycle'],
+            solutions: ['Compliance Risk Concepts, Oyster Consulting, or Beacon Compliance (fractional CCO + program build)', 'COMPLY or RIA Compliance Technology (compliance management platform)', 'Smarsh or Global Relay (off-channel comms archiving)', 'ACA Group (mock exam and regulatory gap analysis)', 'Goodwin Law or Shulman Rogers (regulatory counsel)', 'Docupace (workflow automation with compliance controls)'] },
+    mid:  { headline: 'Strengthen compliance infrastructure ahead of growth',
+            context: 'The firm has partial compliance coverage but meaningful gaps remain. The SEC\'s 2026 examination priorities — cybersecurity, AI governance, off-channel communications, and fiduciary documentation — are areas where mid-level compliance programs are most frequently found deficient. Growing AUM and advisor headcount increase regulatory surface area faster than compliance infrastructure typically scales.',
+            actions: ['Commission a mock SEC exam to identify specific gaps', 'Upgrade cybersecurity policy to meet Reg S-P incident response requirements', 'Implement AI governance policy for all tools in use', 'Ensure CCO has dedicated time and is not a part-time/collateral role', 'Formalize vendor oversight program covering top 10 technology providers'],
+            solutions: ['Oyster Consulting or Foreside (mock exam and program upgrade)', 'COMPLY (compliance management software)', 'Smarsh (communications monitoring)', 'Riskalyze (compliance governance certification)', 'ACA Group (enterprise compliance consulting)'] },
+    high: { headline: 'Maintain compliance leadership as the regulatory environment evolves',
+            context: 'The firm\'s compliance posture is strong. The priority is staying current as SEC examination priorities evolve in 2026 — particularly around AI governance as new tools proliferate, and cybersecurity as threat sophistication increases.',
+            actions: ['Annual review of compliance program against current SEC exam priority letters', 'Update AI governance policy as new tools are adopted', 'Conduct annual cybersecurity tabletop exercise', 'Ensure vendor oversight covers all AI tool providers'],
+            solutions: ['COMPLY or Compliance Alpha (ongoing compliance monitoring)', 'Smarsh (communications archiving)', 'ACA Group (annual compliance program review)'] },
+  },
+  people: {
+    low:  { headline: 'Build a talent strategy before growth creates a crisis',
+            context: 'The firm\'s people and talent infrastructure is underdeveloped relative to its size and growth ambitions. Without a next-gen advisor pipeline, equity path, or structured development program, the firm is one advisor departure away from a client service crisis. 9% of all advisors changed firms in 2025, disproportionately into the RIA channel — meaning the competitive environment for talent is intensifying while this firm lacks the infrastructure to compete.',
+            actions: ['Create a written talent strategy covering recruiting, development, and retention', 'Identify next-gen advisor candidates and initiate equity path conversations', 'Conduct compensation benchmarking against regional and national RIA peers', 'Develop a formal associate advisor program with defined career milestones'],
+            solutions: ['New Planner Recruiting or FP Recruiting (next-gen advisor sourcing)', 'Lead Advisor (associate advisor placement)', 'Ensemble Practice (team structure and equity program design)', 'XY Planning Network (community and pipeline for next-gen fee-only advisors)', 'ClientWise Business Builders Academy (advisor development)'] },
+    mid:  { headline: 'Formalize talent development and build a retention advantage',
+            context: 'The firm has talent but lacks the systems to retain and develop it. A next-gen advisor who cannot see a clear equity path and career trajectory will eventually leave — often to a competitor who offers both. Building a structured development program and transparent ownership timeline is the most cost-effective retention investment available.',
+            actions: ['Document a 3-year career trajectory for each advisor with milestones', 'Establish formal equity path with defined buyout terms and valuation methodology', 'Implement advisor performance reviews with measurable KPIs', 'Benchmark compensation annually and adjust proactively, not reactively'],
+            solutions: ['Succession Resource Group (equity program and career path design)', 'DeVoe & Company (valuation methodology for internal buyouts)', 'Advisor Growth Strategies (talent and development consulting)', 'Riskalyze / Nitrogen (advisor productivity and client attribution tools)'] },
+    high: { headline: 'Use talent strength as a recruiting and branding advantage',
+            context: 'The firm has built strong people infrastructure. The priority is leveraging this externally — as a recruiting message, a differentiator vs. aggregators competing for the same talent, and as a client-facing brand attribute that signals organizational stability.',
+            actions: ['Actively communicate equity path in recruiting conversations and job postings', 'Build employer brand content for LinkedIn and industry publications', 'Document succession and talent depth as a client retention and referral story'],
+            solutions: ['Ficomm Partners or JConnelly (employer brand and thought leadership)', 'LinkedIn Talent Solutions (structured recruiting)', 'Carson Group or Advisor Growth Strategies (talent program benchmarking)'] },
+  },
+  bd: {
+    low:  { headline: 'Business development has no infrastructure — build one immediately',
+            context: 'Business development is entirely informal. No advisor has a written BD plan, COI relationships are not tracked or managed systematically, and marketing activity is nonexistent or sporadic. 57% of all RIAs report client acquisition as their leading challenge, and firms without BD infrastructure are increasingly dependent on luck and longevity rather than strategy. The combination of strong referral potential and no system to activate it is a significant opportunity cost.',
+            actions: ['Create a written BD plan for each advisor with quarterly activity targets', 'Map every COI relationship into CRM with contact frequency and last-touch tracking', 'Launch a structured referral program with custodian referral network enrollment', 'Establish a basic digital marketing presence — updated website, LinkedIn activity', 'Set and track prospect pipeline metrics: leads, conversations, close rate'],
+            solutions: ['Wealthbox or Salesforce FSC (BD pipeline and COI tracking)', 'Snappy Kraken or FMG Suite (advisor marketing automation)', 'Schwab Advisor Network or Fidelity WAS (custodian referral programs)', 'FINNY AI (prospect identification and outreach)', 'Advisor Growth Strategies (BD coaching and accountability)'] },
+    mid:  { headline: 'Move from ad-hoc BD to a repeatable growth system',
+            context: 'BD activity is happening but lacks the consistency, tracking, and optimization needed to generate predictable growth. Referrals come in but are not actively cultivated. Marketing content exists but is not targeted or measured. The gap between BD capability and BD output is primarily a systems problem.',
+            actions: ['Implement CRM-based pipeline reporting with weekly review cadence', 'Build a COI engagement calendar with monthly touchpoint targets', 'A/B test marketing content to identify highest-converting formats', 'Develop a defined prospect qualification process and minimum threshold'],
+            solutions: ['Practifi (BD pipeline and relationship management)', 'Broadridge AdvisorStream (content marketing and personalization)', 'FMG Suite (advisor marketing automation)', 'IntelliFlo (client relationship and prospect management)'] },
+    high: { headline: 'Optimize BD ROI and scale what\'s working',
+            context: 'BD is a genuine strength. The focus should be on measuring ROI rigorously, identifying the highest-value channels, and systematically scaling them — rather than adding new activities that dilute focus.',
+            actions: ['Build a BD performance dashboard tracking leads, conversions, and ROI by channel', 'Identify the top 20% of COI sources generating 80% of referrals — double investment there', 'Evaluate digital marketing channels for scalable growth'],
+            solutions: ['HubSpot (marketing analytics and attribution)', 'RIA Intelligence (peer benchmarking for BD performance)', 'Advisor Growth Strategies (growth optimization consulting)'] },
+  },
+  succession: {
+    low:  { headline: 'No succession plan is a risk to clients, value, and the firm\'s future',
+            context: 'The firm has no documented succession plan, continuity agreement, or formal business valuation. Only 42% of RIA firms have written succession plans — the lowest level since 2019. For any firm, an unplanned exit creates an immediate client service crisis, a regulatory concern (the SEC reviews succession plans in examinations), and destroys enterprise value at the exact moment it matters most. Without a continuity partner, clients have no protection if something happens to the principal advisor.',
+            actions: ['Engage an RIA succession planning specialist within 60 days', 'Execute a business continuity agreement with a qualified partner firm', 'Commission an independent business valuation to establish baseline value', 'Begin internal succession conversations with next-gen advisors if applicable', 'Document client relationship assignments and AUM distribution'],
+            solutions: ['FP Transitions or Succession Resource Group (succession planning advisory)', 'DeVoe & Company (valuation and M&A readiness)', 'Advisor Growth Strategies (internal succession program design)', 'Dynasty Financial Partners or Sanctuary Wealth (continuation platforms)', 'Merchant Investment Management (minority equity and growth capital)'] },
+    mid:  { headline: 'Move from informal succession thinking to a documented plan',
+            context: 'Succession conversations have started but nothing is formalized. The risk is that verbal agreements and informal understandings are not enforceable, are not visible to regulators, and are not credible to clients, next-gen advisors, or potential acquirers. Formalizing the plan now — while the principal advisor is healthy and has time — produces far better outcomes than waiting.',
+            actions: ['Draft and execute a written succession plan with defined timeline and structure', 'Update business valuation using current market multiples', 'Formalize equity path for next-gen advisors with defined buyout terms', 'Establish a continuity agreement with a named partner firm or advisor'],
+            solutions: ['FP Transitions (plan drafting and transaction support)', 'Succession Resource Group (plan design and documentation)', 'Echelon Partners (valuation and deal structuring)', 'New Planner Recruiting (next-gen advisor sourcing to strengthen internal succession)'] },
+    high: { headline: 'Leverage succession strength as a competitive and recruiting differentiator',
+            context: 'The firm has a well-developed succession plan and continuity structure — a genuine rarity. Only 42% of RIAs have written plans, meaning this firm is in the top tier of succession preparedness. This should be actively leveraged: as a recruiting tool for next-gen advisors, as a client retention story, and as a valuation driver in any future transaction.',
+            actions: ['Update valuation annually to reflect AUM and market multiple changes', 'Use succession strength in recruiting conversations to attract next-gen talent', 'Brief clients on the continuity plan to build confidence and reduce AUM attrition risk', 'Keep succession documents current as firm structure and personnel change'],
+            solutions: ['DeVoe & Company (annual valuation update)', 'Ficomm Partners (client communication strategy for succession messaging)', 'FP Transitions (keeping succession documentation current and transaction-ready)'] },
+  },
+};
+
+function getTier(score) {
+  if (score === null) return null;
+  if (score < 5) return 'low';
+  if (score < 7.5) return 'mid';
+  return 'high';
+}
+
+function scColor(score) {
+  if (score >= 8) return 'var(--green)';
+  if (score >= 6) return 'var(--navy-light)';
+  if (score >= 4) return 'var(--orange)';
+  return 'var(--red)';
+}
+
+function scBg(score) {
+  if (score >= 8) return 'var(--green-bg)';
+  if (score >= 6) return 'var(--blue-bg)';
+  if (score >= 4) return 'var(--orange-bg)';
+  return 'var(--red-bg)';
+}
+
+function scStatusText(score) {
+  if (score >= 8) return 'Strong';
+  if (score >= 6) return 'Needs attention';
+  if (score >= 4) return 'Elevated risk';
+  return 'Priority risk';
+}
+
+function getOverallScore() {
+  const scores = FW_IDS.map(id => getDimScore(id)).filter(s => s !== null);
+  if (!scores.length) return null;
+  return scores.reduce((a, b) => a + b, 0) / scores.length;
+}
+
+function initDiagTab() {
+  const scored = FW_IDS.filter(id => getDimScore(id) !== null).length;
+  const empty  = document.getElementById('diag-empty');
+  const report = document.getElementById('diag-report');
+  const genWrap = document.getElementById('diag-generate-wrap');
+
+  if (scored < 3) {
+    empty.style.display = 'block';
+    report.style.display = 'none';
+    genWrap.style.display = 'none';
+    return;
+  }
+  empty.style.display = 'none';
+  // Show report if already built, otherwise show generate button
+  if (report.dataset.built) {
+    report.style.display = 'block';
+    genWrap.style.display = 'none';
+  } else {
+    report.style.display = 'none';
+    genWrap.style.display = 'block';
+  }
+}
+
+function buildDiagnostic() {
+  const overall = getOverallScore();
+  if (overall === null) return;
+
+  const firm = document.getElementById('firm-name').value || 'Firm Assessment';
+  const dateVal = document.getElementById('meeting-date').value;
+  const dateStr = dateVal ? new Date(dateVal + 'T12:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+
+  // header
+  document.getElementById('diag-firmname').textContent = firm;
+  document.getElementById('diag-date-display').textContent = 'Assessment date: ' + dateStr + '  ·  Prepared by A2 Investment Partners  ·  Confidential';
+  const overallEl = document.getElementById('diag-overall');
+  overallEl.textContent = overall.toFixed(1) + '/10';
+  overallEl.style.color = overall >= 7 ? 'var(--gold-light)' : overall >= 5 ? '#f9c86a' : '#f0a0a0';
+
+  const healthLabels = [[8,'Strong firm health — sustain and scale'], [6,'Solid foundation — targeted gaps require attention'], [4,'Meaningful gaps — structured intervention needed'], [0,'Significant risk exposure — urgent action required']];
+  document.getElementById('diag-health-label').textContent = healthLabels.find(([t]) => overall >= t)[1];
+
+  // mini score badges
+  const mini = document.getElementById('diag-mini-scores');
+  mini.innerHTML = FW_IDS.map(id => {
+    const sc = getDimScore(id);
+    const m = DIM_META[id];
+    if (sc === null) return '';
+    const bg = sc >= 8 ? 'rgba(27,102,68,.7)' : sc >= 6 ? 'rgba(46,95,163,.7)' : sc >= 4 ? 'rgba(184,79,26,.7)' : 'rgba(155,35,53,.7)';
+    return `<div class="diag-mini-badge" style="background:${bg}">${m.icon} ${m.label.split(' & ')[0]}: ${sc.toFixed(1)}</div>`;
+  }).join('');
+
+  // context paragraph
+  const allScores = FW_IDS.map(id => ({ id, score: getDimScore(id), label: DIM_META[id].label })).filter(x => x.score !== null);
+  const sorted = [...allScores].sort((a, b) => a.score - b.score);
+  const bottom = sorted.slice(0, 2).map(x => x.label).join(' and ');
+  const top = [...allScores].sort((a, b) => b.score - a.score).slice(0, 2).map(x => x.label).join(' and ');
+  const dimCount = allScores.length;
+  const critCount = allScores.filter(x => x.score < 5).length;
+  document.getElementById('diag-context').innerHTML =
+    `This diagnostic was completed across ${dimCount} of 7 firm health dimensions. ` +
+    (critCount > 0 ? `<strong>${critCount} dimension${critCount > 1 ? 's score' : ' scores'} below 5/10</strong>, indicating priority risk areas that should be addressed before growth is accelerated. ` : '') +
+    `The firm's lowest-scoring areas — <strong>${bottom}</strong> — represent the most concentrated opportunity for A2 Investment Partners to add value through specialist resources and solution recommendations. ` +
+    (top ? `Strengths in <strong>${top}</strong> provide a foundation to build from. ` : '') +
+    `The three priority recommendations below are sequenced from most to least urgent based on regulatory risk, growth impact, and remediation complexity.`;
+
+  // scorecard table
+  const tbl = document.getElementById('diag-score-table');
+  tbl.innerHTML = FW_IDS.map(id => {
+    const sc = getDimScore(id);
+    const m = DIM_META[id];
+    if (sc === null) return `<div class="diag-score-row"><div class="diag-score-icon">${m.icon}</div><div class="diag-score-name">${m.label}</div><div style="flex:1;font-size:.75rem;color:var(--muted);font-style:italic;">Not rated</div></div>`;
+    const pct = (sc / 10 * 100).toFixed(0);
+    return `
+      <div class="diag-score-row">
+        <div class="diag-score-icon">${m.icon}</div>
+        <div class="diag-score-name">${m.label}</div>
+        <div class="diag-score-bar-wrap"><div class="diag-score-bar-fill" style="width:${pct}%;background:${scColor(sc)}"></div></div>
+        <div class="diag-score-val" style="color:${scColor(sc)}">${sc.toFixed(1)}</div>
+        <div style="width:100px;flex-shrink:0;font-size:.72rem;padding:3px 8px;border-radius:12px;background:${scBg(sc)};color:${scColor(sc)};font-weight:600;text-align:center;">${scStatusText(sc)}</div>
+      </div>`;
+  }).join('');
+
+  // priority recommendations — bottom 3 scored dims
+  const priorities = [...allScores].sort((a, b) => a.score - b.score).slice(0, 3);
+  const priorityColors = ['var(--red)', 'var(--orange)', 'var(--navy-light)'];
+  const priorityBgs    = ['var(--red-bg)', 'var(--orange-bg)', 'var(--blue-bg)'];
+  const recContainer = document.getElementById('diag-recs');
+
+  let recsHTML = `<div style="font-family:'DM Serif Display',serif;font-size:1.25rem;color:var(--navy);margin-bottom:1rem;">Top 3 Priority Recommendations</div>`;
+  priorities.forEach((dim, idx) => {
+    const meta = DIM_META[dim.id];
+    const tier = getTier(dim.score);
+    const rec  = DIM_RECS[dim.id][tier];
+    const col  = priorityColors[idx];
+    const bg   = priorityBgs[idx];
+    recsHTML += `
+      <div class="diag-rec-card">
+        <div class="diag-rec-header" style="background:${bg};">
+          <div class="diag-rec-num" style="background:${col};">${idx + 1}</div>
+          <div class="diag-rec-title-wrap">
+            <div class="diag-rec-label" style="color:${col};">Priority ${idx + 1} · ${meta.icon} ${meta.label}</div>
+            <div class="diag-rec-title">${rec.headline}</div>
+          </div>
+          <div class="diag-rec-score-badge" style="background:${scBg(dim.score)};color:${scColor(dim.score)};">${dim.score.toFixed(1)}/10</div>
+        </div>
+        <div class="diag-rec-body">
+          <div class="diag-rec-section">
+            <div class="diag-rec-section-label">Context &amp; rationale</div>
+            <div class="diag-rec-text">${rec.context}</div>
+          </div>
+          <div class="diag-rec-section">
+            <div class="diag-rec-section-label">Recommended actions</div>
+            <div>${rec.actions.map(a => `
+              <div class="diag-action-item">
+                <div class="diag-action-dot" style="background:${col};"></div>
+                <div class="diag-action-text">${a}</div>
+              </div>`).join('')}
+            </div>
+          </div>
+          <div class="diag-rec-section">
+            <div class="diag-rec-section-label">Suggested solutions &amp; specialists</div>
+            <div class="diag-solutions-wrap">${rec.solutions.map(s => `<div class="diag-solution-tag">${s}</div>`).join('')}</div>
+          </div>
+        </div>
+      </div>`;
+  });
+  recContainer.innerHTML = recsHTML;
+
+  // strengths
+  const strong = allScores.filter(x => x.score >= 7.5);
+  const swrap = document.getElementById('diag-strengths-wrap');
+  if (strong.length > 0) {
+    swrap.style.display = 'block';
+    const STRENGTH_MSGS = {
+      gtm:        'Go-to-market and growth infrastructure is performing well. The firm has a scalable approach to client acquisition that can be optimized and expanded.',
+      tech:        'Technology and data systems are a competitive advantage. The integrated stack reduces friction and positions the firm to adopt AI-driven capabilities quickly.',
+      ops:         'Operations are mature and efficient. Strong processes create capacity for growth without proportional cost increases.',
+      comp:        'Compliance and risk management is a genuine differentiator. Regulatory preparedness reduces exam risk and supports M&A readiness.',
+      people:      'People and talent infrastructure is strong. Career paths and development programs create retention advantages over aggregators and larger competitors.',
+      bd:          'Business development is active and systematic. The firm has built a repeatable growth engine that generates predictable new client flow.',
+      succession:  'Succession and continuity planning is best-in-class. A clear ownership roadmap protects client relationships, supports next-gen recruiting, and maximizes firm value.',
+    };
+    document.getElementById('diag-strengths').innerHTML = strong.map(d => `
+      <div class="strength-row">
+        <div class="strength-icon">${DIM_META[d.id].icon}</div>
+        <div class="strength-text"><strong>${DIM_META[d.id].label} (${d.score.toFixed(1)}/10):</strong> ${STRENGTH_MSGS[d.id]}</div>
+      </div>`).join('');
+  } else {
+    swrap.style.display = 'none';
+  }
+
+  // next step
+  const lowestScore = priorities[0].score;
+  const lowestDim   = DIM_META[priorities[0].id].label;
+  let nextStep;
+  if (lowestScore < 4) {
+    nextStep = `A2 Investment Partners recommends scheduling an immediate follow-up session focused on the ${lowestDim} gap — this score indicates urgent risk that should be addressed before any growth initiative is accelerated. We will introduce the relevant specialist resources and outline a 30-day remediation plan.`;
+  } else if (overall < 6) {
+    nextStep = `A2 Investment Partners recommends a structured 60-minute follow-up session to walk through the top three priorities, introduce specialist resources for each gap area, and align on a 90-day action plan. The overall score indicates meaningful gaps across multiple dimensions that benefit from sequenced, coordinated intervention.`;
+  } else {
+    nextStep = `A2 Investment Partners recommends a follow-up strategy session to align on priority sequencing, introduce relevant solution partners, and set a 90-day roadmap. The firm\'s overall health score reflects a solid foundation — the goal is targeted investment in the 2–3 gap areas to unlock the next phase of growth.`;
+  }
+  document.getElementById('diag-next-step').textContent = nextStep;
+
+  const report = document.getElementById('diag-report');
+  report.dataset.built = '1';
+  report.style.display = 'block';
+  document.getElementById('diag-generate-wrap').style.display = 'none';
+}
+
+function exportDiagnostic() {
+  const firm = document.getElementById('firm-name').value || 'Unnamed Firm';
+  const dateVal = document.getElementById('meeting-date').value;
+  const dateStr = dateVal ? new Date(dateVal + 'T12:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : new Date().toLocaleDateString();
+  const overall = getOverallScore();
+
+  let out = `A2 INVESTMENT PARTNERS — RIA DIAGNOSTIC SUMMARY\n`;
+  out += `Firm: ${firm}  |  Date: ${dateStr}  |  Confidential\n`;
+  out += `${'═'.repeat(70)}\n\n`;
+  out += `OVERALL HEALTH SCORE: ${overall ? overall.toFixed(1) + '/10' : 'Not calculated'}\n\n`;
+
+  out += `SCORECARD\n${'-'.repeat(40)}\n`;
+  FW_IDS.forEach(id => {
+    const sc = getDimScore(id);
+    out += `  ${DIM_META[id].icon} ${DIM_META[id].label}: ${sc !== null ? sc.toFixed(1) + '/10 (' + scStatusText(sc) + ')' : 'Not rated'}\n`;
+  });
+
+  out += `\n${'═'.repeat(70)}\nTOP 3 PRIORITY RECOMMENDATIONS\n${'═'.repeat(70)}\n\n`;
+  const allScores = FW_IDS.map(id => ({ id, score: getDimScore(id) })).filter(x => x.score !== null).sort((a, b) => a.score - b.score);
+  allScores.slice(0, 3).forEach((dim, idx) => {
+    const meta = DIM_META[dim.id];
+    const rec  = DIM_RECS[dim.id][getTier(dim.score)];
+    out += `PRIORITY ${idx + 1}: ${meta.icon} ${meta.label} (${dim.score.toFixed(1)}/10)\n`;
+    out += `${rec.headline}\n\n`;
+    out += `Context: ${rec.context}\n\n`;
+    out += `Actions:\n${rec.actions.map(a => `  • ${a}`).join('\n')}\n\n`;
+    out += `Suggested Resources:\n${rec.solutions.map(s => `  · ${s}`).join('\n')}\n\n`;
+  });
+
+  const strong = allScores.filter(x => x.score >= 7.5);
+  if (strong.length) {
+    out += `${'═'.repeat(70)}\nFIRM STRENGTHS\n${'═'.repeat(70)}\n`;
+    strong.forEach(d => out += `  ✓ ${DIM_META[d.id].label}: ${d.score.toFixed(1)}/10\n`);
+    out += '\n';
+  }
+
+  out += `${'═'.repeat(70)}\n`;
+  out += `DISCOVERY NOTES\n${'-'.repeat(40)}\n`;
+  FRAMEWORK.forEach(dim => {
+    const sc = getDimScore(dim.id);
+    out += `\n${dim.icon} ${dim.title.toUpperCase()}${sc !== null ? '  →  ' + sc.toFixed(1) + '/10' : ''}\n`;
+    dim.qs.forEach((qo, qi) => {
+      const r = ratings[dim.id][qi];
+      const n = notes[dim.id][qi];
+      out += `  Q${qi+1}: ${qo.q}\n`;
+      if (r !== null) out += `  Rating: ${r}/10\n`;
+      if (n)          out += `  Notes:  ${n}\n`;
+      out += '\n';
+    });
+  });
+
+  navigator.clipboard.writeText(out).catch(() => {});
+  showToast('✓ Full diagnostic report exported to clipboard');
+}
+
+// ─── INIT ──────────────────────────────────────────────
+buildChallenges('solo');
+document.getElementById('meeting-date').value = new Date().toISOString().split('T')[0];
+</script>
+</body>
+</html>
         <h1>📤 Share This</h1>
         <p class="subtitle">Share your content across social media</p>
 
